@@ -1,8 +1,9 @@
 import { createFilter } from 'rollup-pluginutils'
 import { PluginOption } from 'vite'
 import marked from 'marked';
-const ext = /\.md$/;
+import { parseCode } from '../shared/markdown'
 
+const ext = /\.md$/;
 
 export default function md ( options: any = {} ): PluginOption {
     const filter = createFilter( options.include || [ '**/*.md'], options.exclude );
@@ -15,9 +16,17 @@ export default function md ( options: any = {} ): PluginOption {
             if ( !ext.test( id ) ) return null;
             if ( !filter( id ) ) return null;
 
-            const data = options.marked === false ? md : marked( md );
+            const tokens = marked.lexer(md);
+            const codes = parseCode(tokens.filter(item => item.type === 'code') as marked.Tokens.Code[])
+            const content = marked.parser(tokens)
             return {
-                code: `export default ${JSON.stringify(data.toString())};`,
+                code: `export const content = '${JSON.stringify(content.toString())}';
+                export const modules = ${JSON.stringify(codes)};
+                export default {
+                  modules: ${JSON.stringify(codes)},
+                  content: '${JSON.stringify(content.toString())}'
+                }
+                `,
                 map: { mappings: '' }
             };
         }

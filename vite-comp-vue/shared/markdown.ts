@@ -14,7 +14,7 @@ export const parseCode = (codes: Array<marked.Tokens.Code>): MdModule  => {
   codes.forEach(code => {
     mdModules.push({
       type: code.lang as MdModuleType,
-      content: code.raw.replace(/```(tsx|jsx|css|scss|less)?/ig, '').split('\n')
+      content: code.raw.replace(/```(tsx|jsx|css|scss|less)?/ig, '').split('\n').filter(item => item != '')
     })
   })
   return mdModules
