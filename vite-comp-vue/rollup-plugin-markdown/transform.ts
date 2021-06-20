@@ -9,6 +9,10 @@ export default function transformMd (): Plugin {
     },
     configResolved (config) {
       console.log(config)
+    },
+    load (id) {
+      console.log(id)
+      return id
     }
   }
 }

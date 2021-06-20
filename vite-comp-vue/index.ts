@@ -4,5 +4,5 @@ import { serverMiddlewares } from './server'
 import { PluginOption } from 'vite'
 
 export default function framework(config?): PluginOption[] {
-  return [serverMiddlewares(), markdownPlugin(config), transformMd()]
+  return [markdownPlugin(config), transformMd()]
 }

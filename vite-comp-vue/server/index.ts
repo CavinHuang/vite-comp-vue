@@ -37,12 +37,14 @@ export const serverMiddlewares = () => ({
           const mdFilePath = path.join(_path, mdFileName)
           if (hasDir(mdFilePath)) {
             console.log(mdFilePath)
-            // return require(mdFilePath)
-            // const content = readTextFs(mdFilePath)
-            // const tokens = marked.lexer(content)
-            // const codes = parseCode(tokens.filter(item => item.type === 'code') as marked.Tokens.Code[])
-            // console.log(codes)
-            // res.write(marked.parser(tokens))
+            const content = readTextFs(mdFilePath)
+            const tokens = marked.lexer(content)
+            const codes = parseCode(tokens.filter(item => item.type === 'code') as marked.Tokens.Code[])
+            console.log(codes)
+             res.setHeader('Content-Type', 'text/html; charset=UTF-8');
+            res.statusCode = 200;
+            res.end(marked.parser(tokens))
+            return
           }
         }
       }
