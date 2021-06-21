@@ -5,7 +5,7 @@ export default defineComponent({
   },
   setup(props) {
     return () => (
-      <div class='marked-content' v-html={props.content.replace(/"/g, '') || ''}></div>
+      <div class='markdown-body' v-html={props.content.replace(/"/g, '') || ''}></div>
     )
   }
 })

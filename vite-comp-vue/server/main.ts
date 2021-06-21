@@ -7,4 +7,6 @@ import { content, modules } from 'E:/project/node/vite-test/src/packages/test1/R
 console.log(content, modules)
   
 
+import './assets/styles/markdown.scss'
+import 'prismjs-material-theme/sass/oceanic.scss'
 createApp(App, { content: content }).mount('#app')
