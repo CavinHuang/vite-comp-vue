@@ -6,6 +6,30 @@
   line-height: 1.5;
   word-wrap: break-word;
 
+  .code-toolbar {
+    position: relative;
+
+    .toolbar {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.6);
+      padding: 6px;
+
+      .toolbar-item {
+        margin-right: 12px;
+        height: 100%;
+      }
+
+      .copy-to-clipboard-button {
+        height: 100%;
+      }
+    }
+  }
+
   .octicon {
     display: inline-block;
     fill: currentColor;
