@@ -5,4 +5,4 @@ import App from './App'
 
 import './assets/styles/markdown.scss'
 import 'prismjs-material-theme/sass/oceanic.scss'
-createApp(App, { content: content }).mount('#app')
+createApp(App, { content: content, modules }).mount('#app')

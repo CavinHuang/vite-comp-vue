@@ -1,7 +1,6 @@
 import { readTextFs } from '../shared/fs'
 import { resolve } from 'path'
 import fs from 'fs'
-import path from 'path'
 export function useMdContentHtml(mdPath) {
   console.log('【md】', mdPath)
   transformMdpathToMain(mdPath)

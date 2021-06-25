@@ -6,6 +6,8 @@ import { firstToUpper } from '../../shared/string'
 import { useMdContentHtml } from '../runtime'
 const root = process.cwd()
 import marked from 'marked';
+const debug = require('debug')('vite:vuedoc:md')
+
 export default function (req: Connect.IncomingMessage, res: ServerResponse, next: Connect.NextFunction) {
   const reg = /(README*).html/ig
   const originalUrl = req.originalUrl as string
@@ -31,16 +33,12 @@ export default function (req: Connect.IncomingMessage, res: ServerResponse, next
       const mdFileName = pathItems[pathItems.length - 1].split('.')[0] + '.md'
       const mdFilePath = path.join(_path, mdFileName)
       if (hasDir(mdFilePath)) {
+        debug('md path => '+mdFilePath)
+        const id = import(mdFilePath)
+        console.log(id)
         const content = useMdContentHtml(mdFilePath)
         res.statusCode = 200;
-        res.end(content)
-        // const content = readTextFs(mdFilePath)
-        // const tokens = marked.lexer(content)
-        // const codes = parseCode(tokens.filter(item => item.type === 'code') as marked.Tokens.Code[])
-        // console.log(codes)
-        // res.setHeader('Content-Type', 'text/html; charset=UTF-8');
-        // res.statusCode = 200;
-        // res.end(marked.parser(tokens))
+        res.end(content) 
         return
       }
     }

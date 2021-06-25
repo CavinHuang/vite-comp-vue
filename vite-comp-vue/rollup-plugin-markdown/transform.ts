@@ -1,7 +1,15 @@
 import { Plugin } from 'vite'
-export default function transformMd (): Plugin {
+import marked from 'marked'
+import { readTextFs } from '../shared/fs'
+interface IMd {
+  content: string
+  modules: marked.Tokens.Code[]
+}
+export default function transformMd (mdPath, isMdContent: Boolean = false): IMd {
+
+  const content = readTextFs(mdPath)
 
   return {
-    name: 'TransformMd'
+    content: 
   }
 }

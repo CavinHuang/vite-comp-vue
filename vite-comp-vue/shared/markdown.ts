@@ -1,4 +1,3 @@
-import { MdModule, MdModuleType } from './markdown';
 import marked from 'marked';
 /**
  * markdown 解析助手
