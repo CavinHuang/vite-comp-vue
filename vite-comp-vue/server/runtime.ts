@@ -1,19 +1,6 @@
 import { readTextFs } from '../shared/fs'
 import { resolve } from 'path'
-import fs from 'fs'
 export function useMdContentHtml(mdPath) {
-  console.log('【md】', mdPath)
-  transformMdpathToMain(mdPath)
-  return readTextFs(resolve(__dirname, './index.html'))
-}
-
-function transformMdpathToMain (mdPath) {
-  const mainTsPath = resolve(__dirname, './main.ts.tpl')
-  let mainTs = readTextFs(mainTsPath)
-  const mdContent = `
-import { content, modules } from '${mdPath.replace(/\\/g, '/')}'
-
-console.log(content, modules)
-  `
-  fs.writeFileSync(resolve(__dirname, './main.ts'), mainTs.replace('{{mdContent}}', mdContent))
+  const content = readTextFs(resolve(__dirname, './index.html'))
+  return content.replace('{{mdPath}}', mdPath)
 }

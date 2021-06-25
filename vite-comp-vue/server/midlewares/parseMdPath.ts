@@ -34,8 +34,6 @@ export default function (req: Connect.IncomingMessage, res: ServerResponse, next
       const mdFilePath = path.join(_path, mdFileName)
       if (hasDir(mdFilePath)) {
         debug('md path => '+mdFilePath)
-        const id = import(mdFilePath)
-        console.log(id)
         const content = useMdContentHtml(mdFilePath)
         res.statusCode = 200;
         res.end(content) 
