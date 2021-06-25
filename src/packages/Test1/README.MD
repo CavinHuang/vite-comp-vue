@@ -3,8 +3,14 @@
 ## DEMO SHOW
 
 ```tsx
-import { createApp } from 'vue'
-import Test from './index'
+import { defineComponent } from 'vue';
+import Test from '@/src/packages/Test1/index.tsx';
 
-createApp(Test).mount(mountNode)
+export default defineComponent({
+  setup() {
+    return () => (
+      <Test />;
+    )
+  }
+})
 ```
