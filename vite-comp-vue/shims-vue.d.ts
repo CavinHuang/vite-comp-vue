@@ -9,3 +9,9 @@ declare module '@auto-import-md' {
   export const content: string
   export const modules: marked.Tokens.Code[]
 }
+
+declare module '*.md' {
+  import { Component } from 'vue'
+  var component: Component
+  export default component
+}

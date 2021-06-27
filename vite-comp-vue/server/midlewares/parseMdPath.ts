@@ -1,14 +1,14 @@
-import { Connect } from 'vite'
+import { Connect, ResolvedConfig } from 'vite'
 import { ServerResponse } from 'http'
 import path from 'path'
 import { hasDir, readTextFs } from '../../shared/fs'
 import { firstToUpper } from '../../shared/string'
 import { useMdContentHtml } from '../runtime'
+import sysDebug from 'debug'
 const root = process.cwd()
-import marked from 'marked';
-const debug = require('debug')('vite:vuedoc:md')
+const debug = sysDebug('vite:vuedoc:md')
 
-export default function (req: Connect.IncomingMessage, res: ServerResponse, next: Connect.NextFunction) {
+export default function (config: ResolvedConfig, req: Connect.IncomingMessage, res: ServerResponse, next: Connect.NextFunction) {
   const reg = /(README*).html/ig
   const originalUrl = req.originalUrl as string
   if (reg.test(originalUrl)) {
@@ -34,9 +34,9 @@ export default function (req: Connect.IncomingMessage, res: ServerResponse, next
       const mdFilePath = path.join(_path, mdFileName)
       if (hasDir(mdFilePath)) {
         debug('md path => '+mdFilePath)
-        const content = useMdContentHtml(mdFilePath)
+        const content = useMdContentHtml(mdFilePath.split(root)[1])
         res.statusCode = 200;
-        res.end(content) 
+        res.end(content)
         return
       }
     }

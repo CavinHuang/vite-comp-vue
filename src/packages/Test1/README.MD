@@ -2,15 +2,18 @@
 
 ## DEMO SHOW
 
-```tsx
-import { defineComponent } from 'vue';
+```vue
+<template>
+  <Test />
+</template>
+
+<script>
 import Test from '@/src/packages/Test1/index.tsx';
 
-export default defineComponent({
-  setup() {
-    return () => (
-      <Test />;
-    )
+export default {
+  components: {
+    Test
   }
-})
+}
+</script>
 ```

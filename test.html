@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <h1 id="test-component">Test Component</h1>
+  <h2 id="demo-show">DEMO SHOW</h2>
+  <pre>
+    <code class="language-vue">
+      <pre style="display:none;"></pre>
+      <div class="vuedoc-demo ">
+        <div class="vuedoc-demo__inner">
+          <div class="vuedoc-demo__preview">
+            <vdpv_0 />
+          </div>
+          <div :style="{ height: vdpv_0Height + 'px' }" class="vuedoc-demo__source">
+            <div ref="vdpv_0Ref" class="vuedoc-demo__sourceref">
+              <div class="vuedoc__code ">
+                <pre class="hljs vuedoc__hljs language-vue hljs--one-dark" v-pre>
+                  <code>
+                    <span class="language-xml">
+                      <span class="hljs-tag">&lt;
+                        <span class="hljs-name">template</span>
+                        &gt;
+                      </span>
+                      <span class="hljs-tag">&lt;
+                        <span class="hljs-name">Test</span> 
+                        /&gt;
+                      </span>
+                      <span class="hljs-tag">&lt;/
+                        <span class="hljs-name">template</span>&gt;
+                      </span>
+
+                      <span class="hljs-tag">&lt;
+                        <span class="hljs-name">script</span>&gt;
+                      </span>
+                    </span>
+                    <span class="language-javascript">
+                      <span class="hljs-keyword">import</span> 
+                      <span class="hljs-title class_">Test</span> 
+                      <span class="hljs-keyword">from</span> 
+                      <span class="hljs-string">&#x27;@/src/packages/Test1/index.tsx&#x27;</span>;
+
+                      <span class="hljs-keyword">export</span> 
+                      <span class="hljs-keyword">default</span> {
+                      <span class="hljs-attr">components</span>: {
+                      <span class="hljs-title class_">Test</span>}
+                      }
+                    </span>
+                    <span class="language-xml">
+                      <span class="hljs-tag">&lt;/
+                        <span class="hljs-name">script</span>&gt;
+                      </span>
+                    </span>
+                  </code>
+                </pre>
+              </div>
+            </div>
+          </div>
+          <div class="vuedoc-demo__footer" @click="toggleCode(0)"> {{ vdpv_0Height > 0 ? 'hidden' : 'show' }} </div>
+        </div>
+      </div>
+    </code>
+  </pre>
+</body>
+
+</html>
