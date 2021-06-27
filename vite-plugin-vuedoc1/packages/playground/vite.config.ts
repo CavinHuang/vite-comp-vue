@@ -14,7 +14,7 @@ import slash from 'slash'
 import { resolve } from 'path'
 export function useMdContentHtml(mdPath) {
   const content = readTextFs(resolve(__dirname, './index.html'))
-  return content.replace('<!--inject-->', `<script type="module" src="/@auto-import-md?md=${slash(mdPath)}"></script>`)
+  return content.replace('{{mdPath}}', slash(mdPath))
 }
 
 const root = process.cwd()
