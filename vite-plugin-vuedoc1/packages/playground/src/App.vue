@@ -5,11 +5,11 @@
 </template>
 
 <script lang="ts">
-// import Doc from './components/button.docs.md'
+import Doc from './packages/Test1/README.md'
 
 const App = {
   components: {
-    // Doc
+    Doc
   }
 }
 export default App
