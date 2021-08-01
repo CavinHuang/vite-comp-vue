@@ -7,5 +7,3 @@ const app = createApp(App)
 app.component('elButton', Button)
 
 app.mount('#app');
-
-(window as any).__VUE_APP__ = app
