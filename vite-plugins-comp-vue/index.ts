@@ -1,10 +1,26 @@
 import { Plugin } from 'vite'
 import { APP_PATH } from './config'
+import { routerPaths } from './vite-plugin-comp-runtime/siteData'
 
-export default (): Plugin => {
+export interface ViteCompConfig {
+  docDir: string
+}
+
+export default (config: ViteCompConfig): Plugin => {
 
   return {
     name: 'vite-comp-vue',
+    resolveId(id) {
+      if (id === '@routerPaths') {
+        return id
+      }
+    },
+
+    async load(id) {
+      if (id === '@routerPaths') {
+        return `export default ${JSON.stringify(await routerPaths(config))}`
+      }
+    },
     configureServer(server) {
       // serve our index.html after vite history fallback
       return () => {

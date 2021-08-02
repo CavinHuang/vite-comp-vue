@@ -103,18 +103,6 @@ _sfc_main.render = _sfc_render
 _sfc_main.__scopeId = "data-v-7ba5bd90"
 _sfc_main.__file = "${path.join(root, mdPath)}"
 export default _sfc_main
-_sfc_main.__hmrId = "7ba5bd90"
-typeof __VUE_HMR_RUNTIME__ !== 'undefined' && __VUE_HMR_RUNTIME__.createRecord(_sfc_main.__hmrId, _sfc_main)
-export const _rerender_only = true
-import.meta.hot.accept(({ default: updated, _rerender_only }) => {
-  console.log(__VUE_HMR_RUNTIME__, updated)
-  if (_rerender_only) {
-    console.log(__VUE_HMR_RUNTIME__, updated)
-    __VUE_HMR_RUNTIME__.rerender(updated.__hmrId, updated.render)
-  } else {
-    __VUE_HMR_RUNTIME__.reload(updated.__hmrId, updated)
-  }
-})
 `
 }
 

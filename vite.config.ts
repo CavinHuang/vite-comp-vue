@@ -15,7 +15,9 @@ export default defineConfig({
   plugins: [
     vue(),
     vueJsx(),
-    viteCompVue()
+    viteCompVue({
+      docDir: resolve('./src/packages')
+    })
   ],
   resolve: {
     alias: {
