@@ -26,6 +26,7 @@ export const buildRoutePath = async (docDir: string): Promise<RouterPaths[]> => 
 
 export const routerPaths = async (config: ViteCompConfig) => {
   return {
-    routerPaths: await buildRoutePath(config.docDir)
+    routerPaths: await buildRoutePath(config.docDir),
+    config
   }
 }

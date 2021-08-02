@@ -16,8 +16,3 @@ declare module '*.md' {
   var component: Component
   export default component
 }
-
-declare module '@routerPaths' {
-  const routerPaths: Array<{ path: string, filePath: string }>
-  export default routerPaths
-}
