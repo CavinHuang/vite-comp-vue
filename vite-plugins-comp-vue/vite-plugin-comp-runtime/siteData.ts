@@ -14,9 +14,11 @@ export const buildRoutePath = async (docDir: string): Promise<RouterPaths[]> => 
   })
   
   const datas: RouterPaths[] = []
+  const reg = /(.*)\.[^.]+/
   page && page.forEach(filePath => {
+    const paths = filePath.match(reg)
     datas.push({
-      path: filePath,
+      path: paths ? paths[1] + '.html' : '/',
       filePath: path.resolve(docDir, filePath)
     })
   })
