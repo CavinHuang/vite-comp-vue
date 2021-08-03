@@ -291,6 +291,11 @@
   dependencies:
     globby "*"
 
+"@types/lru-cache@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.nlark.com/@types/lru-cache/download/@types/lru-cache-5.1.1.tgz#c48c2e27b65d2a153b19bfc1a317e30872e01eef"
+  integrity sha1-xIwuJ7ZdKhU7Gb/BoxfjCHLgHu8=
+
 "@types/marked@^2.0.3":
   version "2.0.3"
   resolved "https://registry.nlark.com/@types/marked/download/@types/marked-2.0.3.tgz#c8ea93684e530cc3b667d3e7226556dd0844ad1f"
@@ -789,7 +794,7 @@ graceful-fs@^4.1.2, graceful-fs@^4.2.2:
 
 gray-matter@^4.0.3:
   version "4.0.3"
-  resolved "https://registry.nlark.com/gray-matter/download/gray-matter-4.0.3.tgz?cache=0&sync_timestamp=1619239661337&other_urls=https%3A%2F%2Fregistry.nlark.com%2Fgray-matter%2Fdownload%2Fgray-matter-4.0.3.tgz#e893c064825de73ea1f5f7d88c7a9f7274288798"
+  resolved "https://registry.nlark.com/gray-matter/download/gray-matter-4.0.3.tgz#e893c064825de73ea1f5f7d88c7a9f7274288798"
   integrity sha1-6JPAZIJd5z6h9ffYjHqfcnQoh5g=
   dependencies:
     js-yaml "^3.13.1"
@@ -955,6 +960,13 @@ lru-cache@^5.1.1:
   integrity sha1-HaJ+ZxAnGUdpXa9oSOhH8B2EuSA=
   dependencies:
     yallist "^3.0.2"
+
+lru-cache@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.nlark.com/lru-cache/download/lru-cache-6.0.0.tgz#6d6fe6570ebd96aaf90fcad1dafa3b2566db3a94"
+  integrity sha1-bW/mVw69lqr5D8rR2vo7JWbbOpQ=
+  dependencies:
+    yallist "^4.0.0"
 
 magic-string@^0.25.7:
   version "0.25.7"
@@ -1363,3 +1375,8 @@ yallist@^3.0.2:
   version "3.1.1"
   resolved "https://registry.npm.taobao.org/yallist/download/yallist-3.1.1.tgz#dbb7daf9bfd8bac9ab45ebf602b8cbad0d5d08fd"
   integrity sha1-27fa+b/YusmrRev2ArjLrQ1dCP0=
+
+yallist@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npm.taobao.org/yallist/download/yallist-4.0.0.tgz#9bb92790d9c0effec63be73519e11a35019a3a72"
+  integrity sha1-m7knkNnA7/7GO+c1GeEaNQGaOnI=

@@ -8,7 +8,7 @@ import {
   HoistedTags
 } from './markdown/markdown'
 import { deeplyParseHeader } from './utils/parseHeader'
-import { PageData, HeadConfig } from '../../types/shared'
+import { PageData, HeadConfig } from '../types'
 import { slash } from './utils/slash'
 import chalk from 'chalk'
 

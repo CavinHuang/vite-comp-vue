@@ -8,8 +8,10 @@
   },
   "dependencies": {
     "@types/globby": "^9.1.0",
+    "@types/lru-cache": "^5.1.1",
     "globby": "^12.0.0",
     "highlight.js": "^11.0.1",
+    "lru-cache": "^6.0.0",
     "vue": "^3.0.5"
   },
   "devDependencies": {
