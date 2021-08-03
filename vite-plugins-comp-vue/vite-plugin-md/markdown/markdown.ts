@@ -12,7 +12,7 @@ import { preWrapperPlugin } from './plugins/preWrapper'
 import { linkPlugin } from './plugins/link'
 import { extractHeaderPlugin } from './plugins/header'
 import { demoPlugin } from './plugins/demo'
-import { Header } from '../../../types/shared'
+import { Header } from '../../types'
 
 const emoji = require('markdown-it-emoji')
 const anchor = require('markdown-it-anchor')
