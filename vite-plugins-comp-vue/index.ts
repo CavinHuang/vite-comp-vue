@@ -38,13 +38,7 @@ export default async (config: ViteCompConfig): Promise<Plugin> => {
     },
 
     transform(code, id) {
-<<<<<<< HEAD
-      console.log('++++++', id)
-      if (id.endsWith('.md')) {
-=======
-      
       if (id.endsWith('.md') || id.endsWith('.MD')) {
->>>>>>> 752b24b9c1d63ee08ed4f4ae2b0cf719c28181f2
         // transform .md files into vueSrc so plugin-vue can handle it
         const { vueSrc, deadLinks } = markdownToVue(code, id)
         if (deadLinks.length) {

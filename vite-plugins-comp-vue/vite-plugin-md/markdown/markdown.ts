@@ -16,7 +16,7 @@ import { demoPlugin } from './plugins/demo'
 import { Header } from '../../types'
 import emoji from 'markdown-it-emoji'
 import anchor from 'markdown-it-anchor'
-import toc  from 'markdown-it-table-of-contents'
+const toc  = require('markdown-it-table-of-contents')
 
 export interface MarkdownOptions extends MarkdownIt.Options {
   lineNumbers?: boolean
