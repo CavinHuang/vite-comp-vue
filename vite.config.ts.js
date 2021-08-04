@@ -1,3 +1,19 @@
+var __defProp = Object.defineProperty;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
 var __require = (x) => {
   if (typeof require !== "undefined")
     return require(x);
@@ -11,7 +27,7 @@ import vueJsx from "@vitejs/plugin-vue-jsx";
 
 // vite-plugins-comp-vue/config/index.ts
 import path from "path";
-var APP_PATH = path.resolve("F:\\project\\node\\vite-test\\vite-plugins-comp-vue\\config", "../vite-plugin-comp-runtime");
+var APP_PATH = path.resolve("G:\\NodeProjects\\vite-comp-vue\\vite-plugins-comp-vue\\config", "../vite-plugin-comp-runtime");
 
 // vite-plugins-comp-vue/vite-plugin-comp-runtime/siteData.ts
 import { globby } from "globby";
@@ -49,9 +65,10 @@ import LRUCache from "lru-cache";
 import MarkdownIt from "markdown-it";
 
 // vite-plugins-comp-vue/vite-plugin-md/utils/parseHeader.ts
+var emojiData = __require("markdown-it-emoji/lib/data/full.json");
 var parseEmojis = (str) => {
-  const emojiData = __require("markdown-it-emoji/lib/data/full.json");
-  return String(str).replace(/:(.+?):/g, (placeholder, key) => emojiData[key] || placeholder);
+  const _emojiData = emojiData;
+  return String(str).replace(/:(.+?):/g, (placeholder, key) => _emojiData[key] || placeholder);
 };
 var unescapeHtml = (html) => String(html).replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&#x3A;/g, ":").replace(/&lt;/g, "<").replace(/&gt;/g, ">");
 var removeMarkdownTokens = (str) => String(str).replace(/(\[(.[^\]]+)\]\((.[^)]+)\))/g, "$2").replace(/(`|\*{1,3}|_)(.*?[^\\])\1/g, "$2").replace(/(\\)(\*|_|`|\!|<|\$)/g, "$2");
@@ -72,10 +89,10 @@ var parseHeader = compose(unescapeHtml, parseEmojis, removeMarkdownTokens, trim)
 var deeplyParseHeader = compose(removeNonCodeWrappedHTML, parseHeader);
 
 // vite-plugins-comp-vue/vite-plugin-md/markdown/plugins/highlight.ts
-var chalk = __require("chalk");
-var prism = __require("prismjs");
-var loadLanguages = __require("prismjs/components/index");
-var escapeHtml = __require("escape-html");
+import chalk from "chalk";
+import prism from "prismjs";
+import loadLanguages from "prismjs/components/index.js";
+import escapeHtml from "escape-html";
 loadLanguages(["markup", "css", "javascript"]);
 function wrap(code, lang) {
   if (lang === "text") {
@@ -116,7 +133,7 @@ var highlight = (str, lang) => {
 };
 
 // vite-plugins-comp-vue/vite-plugin-md/markdown/plugins/slugify.ts
-var removeDiacritics = __require("diacritics").remove;
+import { remove as removeDiacritics } from "diacritics";
 var rControl = /[\u0000-\u001f]/g;
 var rSpecial = /[\s~`!@#$%^&*()\-_+=[\]{}|\\;:"'<>,.?/]+/g;
 var slugify = (str) => {
@@ -173,8 +190,8 @@ var lineNumberPlugin = (md) => {
 };
 
 // vite-plugins-comp-vue/vite-plugin-md/markdown/plugins/component.ts
-var blockNames = __require("markdown-it/lib/common/html_blocks");
-var HTML_OPEN_CLOSE_TAG_RE = __require("markdown-it/lib/common/html_re").HTML_OPEN_CLOSE_TAG_RE;
+import blockNames from "markdown-it/lib/common/html_blocks.js";
+import { HTML_OPEN_CLOSE_TAG_RE } from "markdown-it/lib/common/html_re.js";
 var HTML_SEQUENCES = [
   [/^<(script|pre|style)(?=(\s|>|$))/i, /<\/(script|pre|style)>/i, true],
   [/^<!--/, /-->/, true],
@@ -243,7 +260,7 @@ var htmlBlock = (state, startLine, endLine, silent) => {
 };
 
 // vite-plugins-comp-vue/vite-plugin-md/markdown/plugins/containers.ts
-var container = __require("markdown-it-container");
+import container from "markdown-it-container";
 var containerPlugin = (md) => {
   md.use(...createContainer("tip", "TIP")).use(...createContainer("warning", "WARNING")).use(...createContainer("danger", "WARNING")).use(container, "v-pre", {
     render: (tokens, idx) => tokens[idx].nesting === 1 ? `<div v-pre>
@@ -271,7 +288,7 @@ function createContainer(klass, defaultTitle) {
 
 // vite-plugins-comp-vue/vite-plugin-md/markdown/plugins/snippet.ts
 import fs from "fs";
-var snippetPlugin = (md, root3) => {
+var snippetPlugin = (md, root2) => {
   const parser = (state, startLine, endLine, silent) => {
     const CH = "<".charCodeAt(0);
     const pos = state.bMarks[startLine] + state.tShift[startLine];
@@ -289,7 +306,7 @@ var snippetPlugin = (md, root3) => {
     }
     const start = pos + 3;
     const end = state.skipSpacesBack(max, pos);
-    const rawPath = state.src.slice(start, end).trim().replace(/^@/, root3);
+    const rawPath = state.src.slice(start, end).trim().replace(/^@/, root2);
     const filename = rawPath.split(/{/).shift().trim();
     const content = fs.existsSync(filename) ? fs.readFileSync(filename).toString() : "Not found: " + filename;
     const meta = rawPath.replace(filename, "");
@@ -308,6 +325,7 @@ var snippetPlugin = (md, root3) => {
 var hoistPlugin = (md) => {
   const RE2 = /^<(script|style)(?=(\s|>|$))/i;
   md.renderer.rules.html_block = (tokens, idx) => {
+    var _a;
     const content = tokens[idx].content;
     const data = md.__data;
     const hoistedTags = data.hoistedTags || (data.hoistedTags = {
@@ -319,7 +337,7 @@ var hoistPlugin = (md) => {
     if (hoistTag) {
       const tag = hoistTag.toLocaleLowerCase();
       hoistedTags[tag] = hoistedTags[tag] || [];
-      hoistedTags[tag]?.push(content.replace(/^<(script|style)(?=(\s|>|$))/gi, ""));
+      (_a = hoistedTags[tag]) == null ? void 0 : _a.push(content.replace(/^<(script|style)(?=(\s|>|$))/gi, ""));
       return "";
     } else {
       return content;
@@ -413,6 +431,7 @@ var index = 1;
 var demoPlugin = (md) => {
   const RE2 = /<demo /i;
   md.renderer.rules.html_inline = (tokens, idx) => {
+    var _a, _b, _c;
     const content = tokens[idx].content;
     const data = md.__data;
     const hoistedTags = data.hoistedTags || (data.hoistedTags = {
@@ -422,10 +441,10 @@ var demoPlugin = (md) => {
     });
     if (RE2.test(content.trim())) {
       const componentName = `demo${index++}`;
-      let language = (content.match(/language=("|')(.*)('|")/) || [])[2] ?? "";
-      const src = (content.match(/src=("|')(\S+)('|")/) || [])[2] ?? "";
+      let language = (_a = (content.match(/language=("|')(.*)('|")/) || [])[2]) != null ? _a : "";
+      const src = (_b = (content.match(/src=("|')(\S+)('|")/) || [])[2]) != null ? _b : "";
       const { realPath, urlPath } = md;
-      const absolutePath = path3.resolve(realPath ?? urlPath, "../", src).split(path3.sep).join("/");
+      const absolutePath = path3.resolve(realPath != null ? realPath : urlPath, "../", src).split(path3.sep).join("/");
       if (!src || !fs2.existsSync(absolutePath)) {
         const warningMsg = `${absolutePath} does not exist!`;
         console.warn(`[vitepress]: ${warningMsg}`);
@@ -433,7 +452,7 @@ var demoPlugin = (md) => {
         <p>${warningMsg}</p>`;
       }
       if (!language) {
-        language = (absolutePath.match(/\.(.+)$/) || [])[1] ?? "vue";
+        language = (_c = (absolutePath.match(/\.(.+)$/) || [])[1]) != null ? _c : "vue";
       }
       const codeStr = fs2.readFileSync(absolutePath).toString();
       const htmlStr = encodeURIComponent(highlight(codeStr, language));
@@ -450,33 +469,29 @@ var demoPlugin = (md) => {
 };
 
 // vite-plugins-comp-vue/vite-plugin-md/markdown/markdown.ts
-var emoji = __require("markdown-it-emoji");
-var anchor = __require("markdown-it-anchor");
-var toc = __require("markdown-it-table-of-contents");
-var createMarkdownRenderer = (root3, options = {}) => {
-  const md = MarkdownIt({
+import emoji from "markdown-it-emoji";
+import anchor from "markdown-it-anchor";
+import toc from "markdown-it-table-of-contents";
+var createMarkdownRenderer = (root2, options = {}) => {
+  const md = MarkdownIt(__spreadValues({
     html: true,
     linkify: true,
-    highlight,
-    ...options
-  });
-  md.use(demoPlugin).use(componentPlugin).use(highlightLinePlugin).use(preWrapperPlugin).use(snippetPlugin, root3).use(hoistPlugin).use(containerPlugin).use(extractHeaderPlugin).use(linkPlugin, {
+    highlight
+  }, options));
+  md.use(demoPlugin).use(componentPlugin).use(highlightLinePlugin).use(preWrapperPlugin).use(snippetPlugin, root2).use(hoistPlugin).use(containerPlugin).use(extractHeaderPlugin).use(linkPlugin, __spreadValues({
     target: "_blank",
-    rel: "noopener noreferrer",
-    ...options.externalLinks
-  }).use(emoji).use(anchor, {
+    rel: "noopener noreferrer"
+  }, options.externalLinks)).use(emoji).use(anchor, __spreadValues({
     slugify,
     permalink: true,
     permalinkBefore: true,
     permalinkSymbol: "#",
-    permalinkAttrs: () => ({ "aria-hidden": true }),
-    ...options.anchor
-  }).use(toc, {
+    permalinkAttrs: () => ({ "aria-hidden": true })
+  }, options.anchor)).use(toc, __spreadValues({
     slugify,
     includeLevel: [2, 3],
-    format: parseHeader,
-    ...options.toc
-  });
+    format: parseHeader
+  }, options.toc));
   if (options.config) {
     options.config(md);
   }
@@ -504,13 +519,15 @@ function slash(p) {
 
 // vite-plugins-comp-vue/vite-plugin-md/markdownToVue.ts
 import chalk2 from "chalk";
-var debug = __require("debug")("vitepress:md");
+import debugModel from "debug";
+var debug = debugModel("vitepress:md");
 var cache = new LRUCache({ max: 1024 });
-function createMarkdownToVueRenderFn(root3, options = {}, pages2) {
-  const md = createMarkdownRenderer(root3, options);
-  pages2 = pages2.map((p) => slash(p.replace(/\.md$/, "")));
+function createMarkdownToVueRenderFn(root2, options = {}, pages) {
+  const md = createMarkdownRenderer(root2, options);
+  pages = pages.map((p) => slash(p.replace(/\.md$/, "")));
   return (src, file) => {
-    const relativePath = slash(path4.relative(root3, file));
+    var _a, _b, _c;
+    const relativePath = slash(path4.relative(root2, file));
     const cached = cache.get(src);
     if (cached) {
       debug(`[cache hit] ${relativePath}`);
@@ -518,7 +535,7 @@ function createMarkdownToVueRenderFn(root3, options = {}, pages2) {
     }
     const start = Date.now();
     const { content, data: frontmatter } = matter(src);
-    md.realPath = frontmatter?.map?.realPath;
+    md.realPath = (_a = frontmatter == null ? void 0 : frontmatter.map) == null ? void 0 : _a.realPath;
     md.urlPath = file;
     let { html, data } = md.render(content);
     html = html.replace(/import\.meta/g, "import.<wbr/>meta").replace(/process\.env/g, "process.<wbr/>env");
@@ -529,8 +546,8 @@ function createMarkdownToVueRenderFn(root3, options = {}, pages2) {
         url = url.replace(/[?#].*$/, "").replace(/\.(html|md)$/, "");
         if (url.endsWith("/"))
           url += `index`;
-        const resolved = slash(url.startsWith("/") ? url.slice(1) : path4.relative(root3, path4.resolve(dir, url)));
-        if (!pages2.includes(resolved)) {
+        const resolved = slash(url.startsWith("/") ? url.slice(1) : path4.relative(root2, path4.resolve(dir, url)));
+        if (!pages.includes(resolved)) {
           console.warn(chalk2.yellow(`
 (!) Found dead link ${chalk2.cyan(url)} in file ${chalk2.white.dim(file)}`));
           deadLinks.push(url);
@@ -549,7 +566,7 @@ function createMarkdownToVueRenderFn(root3, options = {}, pages2) {
     data.hoistedTags.script = data.hoistedTags.script || [];
     injectComponentData(data.hoistedTags);
     injectPageData(data.hoistedTags, pageData);
-    const vueSrc = `<script>${(data.hoistedTags.script ?? []).join("\n")}<\/script><style>${(data.hoistedTags.style ?? []).join("\n")}</style>
+    const vueSrc = `<script>${((_b = data.hoistedTags.script) != null ? _b : []).join("\n")}<\/script><style>${((_c = data.hoistedTags.style) != null ? _c : []).join("\n")}</style>
 <template><div>${html}</div></template>`;
     debug(`[render] ${file} in ${Date.now() - start}ms.`);
     const result = {
@@ -562,11 +579,13 @@ function createMarkdownToVueRenderFn(root3, options = {}, pages2) {
   };
 }
 function injectPageData(hoistedTags, data) {
+  var _a;
   const code = `
 export const __pageData = ${JSON.stringify(JSON.stringify(data))}`;
-  hoistedTags.script?.push(code);
+  (_a = hoistedTags.script) == null ? void 0 : _a.push(code);
 }
 function injectComponentData(hoistedTags) {
+  var _a;
   const exportCode = `
 export default {
     components: {
@@ -574,7 +593,7 @@ export default {
     },
   }
   `;
-  hoistedTags.script?.push(exportCode);
+  (_a = hoistedTags.script) == null ? void 0 : _a.push(exportCode);
 }
 var inferTitle = (frontmatter, content) => {
   if (frontmatter.home) {
@@ -608,22 +627,32 @@ var getHeadMetaContent = (head, name) => {
 
 // vite-plugins-comp-vue/index.ts
 var hasDeadLinks = false;
-var vite_plugins_comp_vue_default = (config) => {
-  const markdownToVue = createMarkdownToVueRenderFn(root, markdown, pages);
+var vite_plugins_comp_vue_default = async (config) => {
+  const pages = await routerPaths(config);
+  const pagesData = pages.routerPaths.map((page) => page.path);
+  const markdownToVue = createMarkdownToVueRenderFn(config.docDir, config.markdown, pagesData);
   return {
     name: "vite-comp-vue",
     resolveId(id) {
       if (id === "@routerPaths") {
         return id;
       }
+      console.log("+++++++++", id);
+      if (id.includes("md")) {
+        const item = pages.routerPaths.find((item2) => id.substring(1, id.length - 3) + ".html" === item2.path);
+        console.log("++sssss", id.substring(1, id.length - 3), item, pages.routerPaths);
+        if (item) {
+          return item.filePath;
+        }
+      }
     },
     async load(id) {
       if (id === "@routerPaths") {
-        return `export default ${JSON.stringify(await routerPaths(config))}`;
+        return `export default ${JSON.stringify(pages)}`;
       }
     },
     transform(code, id) {
-      if (id.endsWith(".md")) {
+      if (id.endsWith(".md") || id.endsWith(".MD")) {
         const { vueSrc, deadLinks } = markdownToVue(code, id);
         if (deadLinks.length) {
           hasDeadLinks = true;
@@ -659,13 +688,13 @@ var vite_plugins_comp_vue_default = (config) => {
 // vite.config.ts
 import path5 from "path";
 var CWD = process.cwd();
-var root2 = CWD;
-var resolve = (_path) => path5.resolve(root2, _path);
+var root = CWD;
+var resolve = (_path) => path5.resolve(root, _path);
 var vite_config_default = defineConfig({
   plugins: [
     vue(),
     vueJsx(),
-    vite_plugins_comp_vue_default({
+    await vite_plugins_comp_vue_default({
       docDir: resolve("./src/packages")
     })
   ],

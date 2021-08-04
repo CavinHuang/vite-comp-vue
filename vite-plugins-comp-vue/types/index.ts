@@ -1,4 +1,7 @@
 // types shared between server and client
+import { AliasOptions, Plugin } from 'vite'
+import { MarkdownOptions } from '../vite-plugin-md/markdown/markdown'
+import { Options as VuePluginOptions } from '@vitejs/plugin-vue'
 
 export interface LocaleConfig {
   lang: string
@@ -37,4 +40,37 @@ export interface Header {
   level: number
   title: string
   slug: string
+}
+
+export interface UserConfig<ThemeConfig = any> {
+  lang?: string
+  base?: string
+  title?: string
+  description?: string
+  head?: HeadConfig[]
+  themeConfig?: ThemeConfig
+  locales?: Record<string, LocaleConfig>
+  alias?: Record<string, string>
+  markdown?: MarkdownOptions
+  outDir?: string
+  // src
+  srcIncludes?: string[]
+  customData?: any
+  vueOptions?: VuePluginOptions
+  vitePlugins?: Plugin[]
+}
+
+export interface SiteConfig<ThemeConfig = any> {
+  root?: string
+  site?: SiteData<ThemeConfig>
+  configPath?: string
+  themeDir?: string
+  outDir?: string
+  tempDir?: string
+  alias?: AliasOptions
+  pages?: string[]
+  userConfig?: UserConfig
+  markdown?: MarkdownOptions
+  vueOptions?: VuePluginOptions
+  vitePlugins?: Plugin[]
 }
