@@ -11,8 +11,8 @@ import { deeplyParseHeader } from './utils/parseHeader'
 import { PageData, HeadConfig } from '../types'
 import { slash } from './utils/slash'
 import chalk from 'chalk'
-
-const debug = require('debug')('vitepress:md')
+import debugModel from 'debug'
+const debug = debugModel('vitepress:md')
 export const cache = new LRUCache<string, MarkdownCompileResult>({ max: 1024 })
 
 interface MarkdownCompileResult {

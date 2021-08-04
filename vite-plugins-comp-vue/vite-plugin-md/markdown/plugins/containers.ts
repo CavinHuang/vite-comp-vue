@@ -1,7 +1,7 @@
 import MarkdownIt from 'markdown-it'
 import Token from 'markdown-it/lib/token'
 
-const container = require('markdown-it-container')
+import container from 'markdown-it-container'
 
 export const containerPlugin = (md: MarkdownIt) => {
   md.use(...createContainer('tip', 'TIP'))

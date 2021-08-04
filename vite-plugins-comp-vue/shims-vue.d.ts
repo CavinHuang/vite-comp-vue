@@ -7,3 +7,5 @@ declare module '@routerPaths' {
   }
   export default routerPaths
 }
+
+declare module 'markdown-it-table-of-contents'

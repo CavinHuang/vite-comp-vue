@@ -1,23 +1,18 @@
 {
-  "extends": "../tsconfig.json",
   "compilerOptions": {
+    "outDir": "dist",
+    "sourceMap": false,
+    "target": "ES2017",
     "moduleResolution": "node",
-    "baseUrl": ".",
-    "outDir": "../../dist/client",
-    "target": "esnext",
-    "module": "esnext",
+    "skipLibCheck": true,
+    "strict": true,
+    "declaration": true,
+    "noUnusedLocals": true,
+    "esModuleInterop": true,
     "jsx": "preserve",
-    "lib": ["ESNext", "DOM"],
-    "types": ["vite/client"],
-    "paths": {
-      "/@shared/*": ["shared/*"],
-      "/@types/*": ["../../types/*"],
-      "/@theme/*": ["theme-default/*"],
-      "vitepress": ["index.ts"]
-    }
+    "module": "CommonJS",
+    "lib": ["esnext"],
+    "baseUrl": "."
   },
-  "include": [
-    ".",
-    "../../types/shared.d.ts",
-  ]
+  "include": ["./shims-vue.d.ts", "./**/*"]
 }

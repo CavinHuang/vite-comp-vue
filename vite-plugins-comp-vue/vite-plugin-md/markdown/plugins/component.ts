@@ -3,10 +3,11 @@ import { RuleBlock } from 'markdown-it/lib/parser_block'
 
 // Replacing the default htmlBlock rule to allow using custom components at
 // root level
+import blockNames from 'markdown-it/lib/common/html_blocks.js'
+import { HTML_OPEN_CLOSE_TAG_RE } from 'markdown-it/lib/common/html_re.js'
 
-const blockNames: string[] = require('markdown-it/lib/common/html_blocks')
-const HTML_OPEN_CLOSE_TAG_RE: RegExp = require('markdown-it/lib/common/html_re')
-  .HTML_OPEN_CLOSE_TAG_RE
+// const HTML_OPEN_CLOSE_TAG_RE: RegExp = require('markdown-it/lib/common/html_re')
+  // .HTML_OPEN_CLOSE_TAG_RE
 
 // An array of opening and corresponding closing sequences for html tags,
 // last argument defines whether it can terminate a paragraph or not
