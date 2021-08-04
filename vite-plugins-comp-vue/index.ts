@@ -27,6 +27,7 @@ export default (config: ViteCompConfig): Plugin => {
     },
 
     transform(code, id) {
+      console.log('++++++', id)
       if (id.endsWith('.md')) {
         // transform .md files into vueSrc so plugin-vue can handle it
         const { vueSrc, deadLinks } = markdownToVue(code, id)

@@ -623,6 +623,7 @@ var vite_plugins_comp_vue_default = (config) => {
       }
     },
     transform(code, id) {
+      console.log("++++++", id);
       if (id.endsWith(".md")) {
         const { vueSrc, deadLinks } = markdownToVue(code, id);
         if (deadLinks.length) {
