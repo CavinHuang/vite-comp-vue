@@ -287,6 +287,11 @@
   resolved "https://registry.nlark.com/@types/estree/download/@types/estree-0.0.48.tgz#18dc8091b285df90db2f25aa7d906cfc394b7f74"
   integrity sha1-GNyAkbKF35DbLyWqfZBs/DlLf3Q=
 
+"@types/node@^16.4.11":
+  version "16.4.11"
+  resolved "https://registry.nlark.com/@types/node/download/@types/node-16.4.11.tgz#245030af802c776c31f00eb0cdde40ee615db462"
+  integrity sha1-JFAwr4Asd2wx8A6wzd5A7mFdtGI=
+
 "@vitejs/plugin-vue-jsx@^1.1.7":
   version "1.1.7"
   resolved "https://registry.nlark.com/@vitejs/plugin-vue-jsx/download/@vitejs/plugin-vue-jsx-1.1.7.tgz?cache=0&sync_timestamp=1627380248065&other_urls=https%3A%2F%2Fregistry.nlark.com%2F%40vitejs%2Fplugin-vue-jsx%2Fdownload%2F%40vitejs%2Fplugin-vue-jsx-1.1.7.tgz#3e0236a01d6b5f8010bd6bc5ffccdbe1f0fa50d5"
