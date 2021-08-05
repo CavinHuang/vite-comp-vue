@@ -1,0 +1,16 @@
+{
+  "name": "vite-comp-vue-runtime",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^16.4.12",
+    "vite": "^2.4.4",
+    "vue": "^3.1.5"
+  }
+}
