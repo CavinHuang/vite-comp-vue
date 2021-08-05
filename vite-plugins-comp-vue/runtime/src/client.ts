@@ -84,7 +84,7 @@ function newRouter(): Router {
     // 在浏览器中：动态导入
     if (inBrowser) {
       isInitialPageLoad = false
-      return import(pageFilePath)
+      return import(/* @vite-ignore */pageFilePath)
     }
 
     // SSR: sync require

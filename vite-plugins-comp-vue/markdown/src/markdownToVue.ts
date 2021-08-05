@@ -6,7 +6,7 @@ import {
   createMarkdownRenderer,
   MarkdownOptions,
   HoistedTags
-} from './markdown/markdown'
+} from './markdown'
 import { deeplyParseHeader } from './utils/parseHeader'
 import { PageData, HeadConfig } from '../../types/shared'
 import { slash } from './utils/slash'
