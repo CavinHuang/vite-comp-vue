@@ -1,6 +1,6 @@
 import MarkdownIt from 'markdown-it'
 import { MarkdownParsedData } from '../markdown'
-import { deeplyParseHeader } from '../../utils/parseHeader'
+import { deeplyParseHeader } from '../utils/parseHeader'
 import { slugify } from './slugify'
 
 export const extractHeaderPlugin = (md: MarkdownIt, include = ['h2', 'h3']) => {

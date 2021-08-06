@@ -27,6 +27,7 @@ export default ():Plugin => {
         }
         return vueSrc
       }
+      console.log(hasDeadLinks)
       return code
     }
   }
