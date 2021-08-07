@@ -166,6 +166,11 @@ to-fast-properties@^2.0.0:
   resolved "https://registry.nlark.com/to-fast-properties/download/to-fast-properties-2.0.0.tgz#dc5e698cbd079265bc73e0377681a4e4e83f616e"
   integrity sha1-3F5pjL0HkmW8c+A3doGk5Og/YW4=
 
+typescript@^4.3.5:
+  version "4.3.5"
+  resolved "https://registry.nlark.com/typescript/download/typescript-4.3.5.tgz#4d1c37cc16e893973c45a06886b7113234f119f4"
+  integrity sha1-TRw3zBbok5c8RaBohrcRMjTxGfQ=
+
 vite@^2.4.4:
   version "2.4.4"
   resolved "https://registry.nlark.com/vite/download/vite-2.4.4.tgz#8c402a07ad45f168f6eb5428bead38f3e4363e47"

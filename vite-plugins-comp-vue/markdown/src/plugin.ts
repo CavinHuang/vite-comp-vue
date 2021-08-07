@@ -22,13 +22,18 @@ export default ():Plugin => {
     transform(code, id) {
       if (id.toLowerCase().endsWith('.md')) {
         const { vueSrc, deadLinks } = markdownToVue(code, id)
+        console.log("获取md内容", code)
+        console.log("转换成vue组件", code)
         if (deadLinks.length) {
           hasDeadLinks = true
         }
-        return vueSrc
+        return {
+          code: vueSrc
+        }
       }
-      console.log(hasDeadLinks)
-      return code
+      return {
+        code
+      }
     }
   }
 }

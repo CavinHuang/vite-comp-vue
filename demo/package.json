@@ -17,6 +17,7 @@
     "typescript": "^4.3.2",
     "vite": "^2.4.4",
     "vue-tsc": "^0.2.2",
-    "vite-comp-vue-markdown": "1.0.0"
+    "vite-comp-vue-markdown": "1.0.0",
+    "vite-comp-vue-runtime": "1.0.0"
   }
 }
