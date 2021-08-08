@@ -1,0 +1,41 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+  /* border: 1px solid #ebedf1; */
+  color: var(--text-color);
+}
+
+table th {
+  font-weight: 600;
+  background: #f9fafb;
+}
+
+table td:first-child {
+  font-weight: 500;
+}
+
+table td,
+table th {
+  padding: 10px 24px;
+  border: 1px solid #ebedf1;
+}
+
+h1 {
+  font-size: 1.8rem;
+}
+
+h2 {
+  font-size: 1.45rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 500;
+}

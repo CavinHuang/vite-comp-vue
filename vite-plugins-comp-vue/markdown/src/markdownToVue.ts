@@ -45,7 +45,6 @@ export function createMarkdownToVueRenderFn(
     md.realPath = frontmatter?.map?.realPath
     md.urlPath = file
     let { html, data } = md.render(content)
-
     // avoid env variables being replaced by vite
     html = html
       .replace(/import\.meta/g, 'import.<wbr/>meta')

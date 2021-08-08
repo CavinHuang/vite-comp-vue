@@ -16,9 +16,9 @@ import path from 'path'
 let index = 1
 // hoist <script> and <style> tags out of the returned html
 // so that they can be placed outside as SFC blocks.
-export const demoPlugin = (md: MarkdownIt) => {
+export const demoPlugin = (root: string, md: MarkdownIt) => {
   const RE = /<demo /i
-
+  
   md.renderer.rules.html_inline = (tokens, idx) => {
     const content = tokens[idx].content
     const data = (md as any).__data as MarkdownParsedData
@@ -29,10 +29,10 @@ export const demoPlugin = (md: MarkdownIt) => {
         style: [],
         components: []
       })
-
+    let language = (content.match(/language=("|')(.*)('|")/) || [])[2] ?? ''
     if (RE.test(content.trim())) {
       const componentName = `demo${index++}`
-      let language = (content.match(/language=("|')(.*)('|")/) || [])[2] ?? ''
+      
       const src = (content.match(/src=("|')(\S+)('|")/) || [])[2] ?? ''
 
       const { realPath, urlPath } = md as any
@@ -58,7 +58,8 @@ export const demoPlugin = (md: MarkdownIt) => {
       // TODO cache it
       const codeStr = fs.readFileSync(absolutePath).toString()
       // const { content: codeContent, data: frontmatter } = matter(codeStr)
-      const htmlStr = encodeURIComponent(highlight(codeStr, language, ''))
+      let { htmlStr } = highlight(root, codeStr, language, '')
+      htmlStr = encodeURIComponent(htmlStr)
 
       hoistedTags.script!.unshift(
         `import ${componentName} from '${absolutePath}' \n`

@@ -45,21 +45,21 @@
 渲染效果如下：
 
 ```vue demo
-  <template>
-    <div>
-      <Test />
-      <div>12333322222sss32</div>
-    </div>
-  </template>
-  <script>
-  import Test from './index.tsx'
+<template>
+  <div>
+    <Test />
+    <div>12333322222sss32</div>
+  </div>
+</template>
+<script>
+import Test from '../../components/Test.tsx'
 
-  export default {
-    components: {
-      Test
-    }
+export default {
+  components: {
+    Test
   }
-  </script>  
+}
+</script>  
 ```
 
 - 第三种
