@@ -9,6 +9,8 @@ import Theme from './theme/default'
 import { createRouter, RouterSymbol } from './router'
 import { inBrowser, pathToFile } from './utils'
 import { Router } from './types'
+import Demo from './components/Demo'
+import { ClientOnly } from './components/ClientOnly'
 
 const NotFound = Theme.NotFound || (() => '404 Not Found')
 
@@ -32,6 +34,9 @@ export function createApp() {
   const app = newApp()
 
   app.provide(RouterSymbol, router)
+
+  app.component('Demo', Demo)
+  app.component('ClientOnly', ClientOnly)
 
   //const siteDataByRouteRef = useSiteDataByRoute(router.route)
   //const pageDataRef = usePageData(router.route)

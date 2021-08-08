@@ -58,7 +58,7 @@ export const demoPlugin = (md: MarkdownIt) => {
       // TODO cache it
       const codeStr = fs.readFileSync(absolutePath).toString()
       // const { content: codeContent, data: frontmatter } = matter(codeStr)
-      const htmlStr = encodeURIComponent(highlight(codeStr, language))
+      const htmlStr = encodeURIComponent(highlight(codeStr, language, ''))
 
       hoistedTags.script!.unshift(
         `import ${componentName} from '${absolutePath}' \n`

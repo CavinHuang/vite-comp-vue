@@ -4,10 +4,10 @@
 
 ### demo 类型
 
-目前只支持了一种写 demo 的形式。
+- 第一种写 demo 的形式。
 
 ```md
-<demo src="../demo-example.vue"
+<demo src="../../components/Test.tsx"
   language="vue"
   title="Demo演示"
   desc="这是一个Demo渲染示例">
@@ -15,8 +15,59 @@
 ```
 
 渲染效果如下
-<demo src="../demo-example.vue"
+<demo src="../../components/Test.tsx"
   language="vue"
   title="Demo演示"
   desc="这是一个Demo渲染示例">
 </demo>
+
+- 第二种
+
+```md
+  #```vue demo
+    <template>
+      <div>
+        <Test />
+        <div>12333322222sss32</div>
+      </div>
+    </template>
+    <script>
+    import Test from './index.tsx'
+
+    export default {
+      components: {
+        Test
+      }
+    }
+    </script>  
+  #```
+```
+渲染效果如下：
+
+```vue demo
+  <template>
+    <div>
+      <Test />
+      <div>12333322222sss32</div>
+    </div>
+  </template>
+  <script>
+  import Test from './index.tsx'
+
+  export default {
+    components: {
+      Test
+    }
+  }
+  </script>  
+```
+
+- 第三种
+
+\`\`\`vue demo src="./test.vue"
+
+\`\`\`
+
+\`\`\`typescript src="./test.ts"
+
+\`\`\`
