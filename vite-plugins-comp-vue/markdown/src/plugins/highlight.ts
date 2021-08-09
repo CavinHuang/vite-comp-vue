@@ -36,7 +36,6 @@ _code: string,
 lang: string, 
 attrStr: string = ''
 ) => {
-  console.log(lang, attrStr)
   let code = _code
   const attrs = attrStr.split(' ')
   const isVueDemo = lang === 'vue' && attrs.includes('demo')
@@ -53,9 +52,6 @@ attrStr: string = ''
     }
   }
 
-  if (isVueDemo) {
-    console.log(isVueDemo, isImport, importSrc, code)
-  }
   return {
     isVueDemo,
     isImport,

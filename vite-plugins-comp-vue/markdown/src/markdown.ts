@@ -56,6 +56,11 @@ export interface MarkdownRenderer {
   urlPath?: string
 }
 
+export interface MarkdownCreator {
+  md: MarkdownRenderer
+  demoBlocks: DemoBlockType[]
+}
+
 export type DemoBlockType = {
   id: string
   code: string
@@ -70,7 +75,7 @@ const getId = () => {
 export const createMarkdownRenderer = (
   root: string,
   options: MarkdownOptions = {}
-): MarkdownRenderer => {
+): MarkdownCreator => {
   const demoBlocks: DemoBlockType[] = []
   const md = MarkdownIt({
     html: true,
@@ -81,7 +86,6 @@ export const createMarkdownRenderer = (
     typographer: true,
     quotes: '\u201c\u201d\u2018\u2019',
     highlight: (originCode, lang, attrStr) => {
-      console.log(lang, attrStr)
       const { htmlStr, isVueDemo, isImport, importSrc, code } = highlight(root, originCode, lang, attrStr)
       if (isVueDemo) {
         const componentCode = isImport
@@ -164,5 +168,8 @@ export const createMarkdownRenderer = (
   }
   ;(md as any).render = wrappedRender
 
-  return md as any
+  return {
+    md: md as any,
+    demoBlocks: demoBlocks
+  }
 }

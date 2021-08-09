@@ -5,7 +5,8 @@ import LRUCache from 'lru-cache'
 import {
   createMarkdownRenderer,
   MarkdownOptions,
-  HoistedTags
+  HoistedTags,
+  DemoBlockType
 } from './markdown'
 import { deeplyParseHeader } from './utils/parseHeader'
 import { PageData, HeadConfig } from '../../shared/types.d'
@@ -19,6 +20,7 @@ interface MarkdownCompileResult {
   vueSrc: string
   pageData: PageData
   deadLinks: string[]
+  demoBlocks: DemoBlockType[]
 }
 
 export function createMarkdownToVueRenderFn(
@@ -26,7 +28,7 @@ export function createMarkdownToVueRenderFn(
   options: MarkdownOptions = {},
   pages: string[]
 ) {
-  const md = createMarkdownRenderer(root, options)
+  const { md, demoBlocks } = createMarkdownRenderer(root, options)
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
 
   return (src: string, file: string): MarkdownCompileResult => {
@@ -101,7 +103,8 @@ export function createMarkdownToVueRenderFn(
     const result = {
       vueSrc,
       pageData,
-      deadLinks
+      deadLinks,
+      demoBlocks
     }
     cache.set(src, result)
     return result
