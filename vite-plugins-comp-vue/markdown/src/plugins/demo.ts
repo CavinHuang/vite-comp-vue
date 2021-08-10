@@ -19,6 +19,45 @@ let index = 1
 export const demoPlugin = (root: string, md: MarkdownIt) => {
   const RE = /<demo /i
   
+  md.renderer.rules.fence = (tokens, idx) => {
+    const token = tokens[idx]
+    const content = token.content
+    if (token.info === 'vue demo') {
+      let { htmlStr, demoBlocks } = highlight(root, decodeURIComponent(content), 'vue', '')
+      const data = (md as any).__data as MarkdownParsedData
+      htmlStr = encodeURIComponent(htmlStr)
+
+      const hoistedTags = data.hoistedTags ||
+      (data.hoistedTags = {
+        script: [],
+        style: [],
+        components: []
+      })
+
+      const { relativePath } = md as any
+      console.log('==========', relativePath)
+      
+      // console.log('realPath =' + realPath)
+      // console.log('absolutePath =' + absolutePath)
+
+      let resultStr = ''
+
+      const componentName = 'VueDemo0'
+
+      hoistedTags.script!.unshift(
+        `import ${componentName} from '/${relativePath}.vdpv_0.vd' \n`
+      )
+      hoistedTags.components!.push(componentName)
+
+      resultStr += `<Demo componentName="${componentName}" htmlStr="${htmlStr}" codeStr="${encodeURIComponent(
+        content
+      )}"><${componentName}></${componentName}></Demo>`
+
+      return resultStr
+    }
+    return ''
+  }
+
   md.renderer.rules.html_inline = (tokens, idx) => {
     const content = tokens[idx].content
     const data = (md as any).__data as MarkdownParsedData

@@ -46,6 +46,7 @@ export function createMarkdownToVueRenderFn(
     const { content, data: frontmatter } = matter(src)
     md.realPath = frontmatter?.map?.realPath
     md.urlPath = file
+    md.relativePath = relativePath
     let { html, data } = md.render(content)
     // avoid env variables being replaced by vite
     html = html

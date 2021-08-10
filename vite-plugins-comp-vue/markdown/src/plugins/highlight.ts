@@ -1,5 +1,6 @@
 import path from 'path'
 import fs from 'fs-extra'
+import { DemoBlockType } from 'src/markdown'
 const chalk = require('chalk')
 const prism = require('prismjs')
 const loadLanguages = require('prismjs/components/index')
@@ -30,6 +31,13 @@ function unquote(str: string) {
   return ret
 }
 
+let id = 0
+const getId = () => {
+  return id++
+}
+
+const demoBlocks: DemoBlockType[] = []
+
 const renderCodeBlock = (
 root: string, 
 _code: string, 
@@ -52,20 +60,39 @@ attrStr: string = ''
     }
   }
 
-  return {
-    isVueDemo,
-    isImport,
-    importSrc,
-    code
+  if (isVueDemo) {
+    const componentCode = isImport
+      ? `<template>
+          <ImportDemo />
+        </template>
+        <script>
+          import ImportDemo from '${importSrc}'
+          export default {
+            components:{
+              ImportDemo
+            }
+          }
+        </script>
+        `
+      : code
+    
+    demoBlocks.push({
+      id: `vueDemo${getId()}`,
+      code: componentCode
+    })  
   }
+  return demoBlocks
 }
 
+
+
+
 export const highlight = (root: string, str: string, lang: string, attrStr: string) => {
-  const vueDemoData = renderCodeBlock(root, str, lang, attrStr)
+  const demoBlocks = renderCodeBlock(root, str, lang, attrStr)
   if (!lang) {
     return {
       htmlStr: wrap(str, 'text'),
-      ...vueDemoData
+      demoBlocks
     }
   }
   lang = lang.toLowerCase()
@@ -94,14 +121,21 @@ export const highlight = (root: string, str: string, lang: string, attrStr: stri
     }
   }
   if (prism.languages[lang]) {
+    // if (isVueDemo) {
+    //   const code = prism.highlight(componentCode, prism.languages[lang], lang)
+    //   console.log(isImport, importSrc, componentCode)
+    //   return {
+    //     htmlStr: `<Demo codeStr="${componentCode}" htmlStr="${wrap(code, rawLang)}"></Demo>`
+    //   }
+    // }
     const code = prism.highlight(str, prism.languages[lang], lang)
     return {
       htmlStr: wrap(code, rawLang),
-      ...vueDemoData
+      demoBlocks
     }
   }
   return {
     htmlStr: wrap(str, 'text'),
-    ...vueDemoData
+    demoBlocks
   }
 }

@@ -54,6 +54,7 @@ export interface MarkdownRenderer {
   render: (src: string, env?: any) => { html: string; data: any }
   realPath?: string
   urlPath?: string
+  relativePath?: string
 }
 
 export interface MarkdownCreator {
@@ -67,16 +68,11 @@ export type DemoBlockType = {
   isImport?: boolean
 }
 
-let id = 0
-const getId = () => {
-  return id++
-}
-
 export const createMarkdownRenderer = (
   root: string,
   options: MarkdownOptions = {}
 ): MarkdownCreator => {
-  const demoBlocks: DemoBlockType[] = []
+  let demoBlocks: DemoBlockType[] = []
   const md = MarkdownIt({
     html: true,
     xhtmlOut: true,
@@ -86,28 +82,8 @@ export const createMarkdownRenderer = (
     typographer: true,
     quotes: '\u201c\u201d\u2018\u2019',
     highlight: (originCode, lang, attrStr) => {
-      const { htmlStr, isVueDemo, isImport, importSrc, code } = highlight(root, originCode, lang, attrStr)
-      if (isVueDemo) {
-        const componentCode = isImport
-          ? `<template>
-              <ImportDemo />
-            </template>
-            <script>
-              import ImportDemo from '${importSrc}'
-              export default {
-                components:{
-                  ImportDemo
-                }
-              }
-            </script>
-            `
-          : code
-        
-        demoBlocks.push({
-          id: `vueDemo${getId()}`,
-          code: componentCode
-        })  
-      }
+      const { htmlStr, demoBlocks: demoBlocksDemo } = highlight(root, originCode, lang, attrStr)
+      demoBlocks = demoBlocksDemo
       return htmlStr
     },
     ...options

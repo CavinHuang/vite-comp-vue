@@ -22,17 +22,21 @@ export default ():Plugin => {
       if (id.toLowerCase().endsWith('.md')) {
         return path.join(docRoot, id)
       }
+      if (/\.md\.vdpv_(\d+)\.vd$/.test(id)) {
+        const idPath: string = id.startsWith(docRoot + '/') ? id : path.join(docRoot, id.substr(1))
+        console.log('=少时诵诗书', id)
+        console.log('+++++', id)
+        console.log('+++++', idPath)
+        return idPath
+      }
     },
     load(id) {
       const mat = id.match(/\.md\.vdpv_(\d+)\.vd$/)
       if (mat && mat.length >= 2) {
         const index: number = Number(mat[1])
         const mdFileName = id.replace(`.vdpv_${index}.vd`, '')
-        const mdFilePath = mdFileName.startsWith(docRoot + '/')
-          ? mdFileName
-          : path.join(docRoot, mdFileName.substr(1))
-
-        const demoBlocks = cacheDemos.get(mdFilePath)
+        console.log(index, mdFileName)
+        const demoBlocks = cacheDemos.get(mdFileName)
         return demoBlocks?.[index].code
       }
     },
@@ -41,7 +45,7 @@ export default ():Plugin => {
         const filePath = id.startsWith(docRoot + '/') ? id : path.join(docRoot, id.substr(1))
         const { vueSrc, deadLinks, demoBlocks } = markdownToVue(code, id)
         cacheDemos.set(filePath, demoBlocks)
-        console.log('block', id, vueSrc, demoBlocks)
+        // console.log('block', id, vueSrc, demoBlocks)
         if (deadLinks.length) {
           hasDeadLinks = true
         }

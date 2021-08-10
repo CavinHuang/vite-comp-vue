@@ -2,10 +2,10 @@
  * runtime plugin
  */
 import { Plugin } from 'vite'
-import path from 'path'
-const APP_PATH = path.resolve(process.cwd(), '../vite-plugins-comp-vue/runtime/src')
 
-export default (): Plugin => {
+export default (config: {
+  appPath: string
+}): Plugin => {
   return {
     name: 'vite-comp-vue-runtime',
     configureServer(server) {
@@ -22,7 +22,7 @@ export default (): Plugin => {
   </head>
   <body>
     <div id="app"></div>
-    <script type="module" src="/@fs/${APP_PATH}/client.ts"></script>
+    <script type="module" src="/@fs/${config.appPath}/client.ts"></script>
   </body>
 </html>`)
             return
