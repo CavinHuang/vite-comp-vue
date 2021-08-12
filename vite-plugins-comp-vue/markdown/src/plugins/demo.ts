@@ -1,3 +1,4 @@
+import { DemoBlockType } from './../../../../vite-plugin-vuedoc1/packages/vite-plugin-vuedoc/src/markdown-it/index';
 import MarkdownIt from 'markdown-it'
 import { MarkdownParsedData } from '../markdown'
 import fs from 'fs'
@@ -18,12 +19,14 @@ let index = 1
 // so that they can be placed outside as SFC blocks.
 export const demoPlugin = (root: string, md: MarkdownIt) => {
   const RE = /<demo /i
-  
+  let demoBlocks: DemoBlockType[] = []
   md.renderer.rules.fence = (tokens, idx) => {
     const token = tokens[idx]
     const content = token.content
     if (token.info === 'vue demo') {
-      let { htmlStr, demoBlocks } = highlight(root, decodeURIComponent(content), 'vue', '')
+      let { htmlStr, demoBlocks: demoBlocksDemo } = highlight(root, decodeURIComponent(content.replace('\\n', '')), 'vue', 'demo')
+      console.log('aaaaaaaaa', demoBlocksDemo)
+      demoBlocks.push(...demoBlocksDemo)
       const data = (md as any).__data as MarkdownParsedData
       htmlStr = encodeURIComponent(htmlStr)
 
@@ -35,7 +38,6 @@ export const demoPlugin = (root: string, md: MarkdownIt) => {
       })
 
       const { relativePath } = md as any
-      console.log('==========', relativePath)
       
       // console.log('realPath =' + realPath)
       // console.log('absolutePath =' + absolutePath)
@@ -117,4 +119,6 @@ export const demoPlugin = (root: string, md: MarkdownIt) => {
       return content
     }
   }
+
+  return demoBlocks
 }

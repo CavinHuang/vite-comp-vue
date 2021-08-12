@@ -28,7 +28,7 @@ export function createMarkdownToVueRenderFn(
   options: MarkdownOptions = {},
   pages: string[]
 ) {
-  const { md, demoBlocks } = createMarkdownRenderer(root, options)
+  const { md } = createMarkdownRenderer(root, options)
   pages = pages.map((p) => slash(p.replace(/\.md$/, '')))
 
   return (src: string, file: string): MarkdownCompileResult => {
@@ -47,7 +47,10 @@ export function createMarkdownToVueRenderFn(
     md.realPath = frontmatter?.map?.realPath
     md.urlPath = file
     md.relativePath = relativePath
-    let { html, data } = md.render(content)
+    let { html, data, demoBlocks } = md.render(content)
+
+    console.log("+++++++++++++", demoBlocks)
+
     // avoid env variables being replaced by vite
     html = html
       .replace(/import\.meta/g, 'import.<wbr/>meta')

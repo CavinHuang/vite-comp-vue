@@ -49,9 +49,15 @@ export interface MarkdownParsedData {
   headers?: Header[]
 }
 
+export type DemoBlockType = {
+  id: string
+  code: string
+  isImport?: boolean
+}
+
 export interface MarkdownRenderer {
   __data: MarkdownParsedData
-  render: (src: string, env?: any) => { html: string; data: any }
+  render: (src: string, env?: any) => { html: string; data: any, demoBlocks: DemoBlockType[] }
   realPath?: string
   urlPath?: string
   relativePath?: string
@@ -60,12 +66,6 @@ export interface MarkdownRenderer {
 export interface MarkdownCreator {
   md: MarkdownRenderer
   demoBlocks: DemoBlockType[]
-}
-
-export type DemoBlockType = {
-  id: string
-  code: string
-  isImport?: boolean
 }
 
 export const createMarkdownRenderer = (
@@ -83,7 +83,8 @@ export const createMarkdownRenderer = (
     quotes: '\u201c\u201d\u2018\u2019',
     highlight: (originCode, lang, attrStr) => {
       const { htmlStr, demoBlocks: demoBlocksDemo } = highlight(root, originCode, lang, attrStr)
-      demoBlocks = demoBlocksDemo
+      console.log("s=s=s==s=ss=s=s=", demoBlocksDemo)
+      demoBlocks.push(...demoBlocksDemo)
       return htmlStr
     },
     ...options
@@ -91,7 +92,8 @@ export const createMarkdownRenderer = (
 
   // custom plugins
   md.use((md) => {
-    demoPlugin(root, md)
+    const demoBlocksDemo = demoPlugin(root, md)
+    demoBlocks.push(...demoBlocksDemo)
   })
     .use(componentPlugin)
     .use(highlightLinePlugin)
@@ -139,6 +141,7 @@ export const createMarkdownRenderer = (
     const html = render.call(md, src)
     return {
       html,
+      demoBlocks,
       data: (md as any).__data
     }
   }

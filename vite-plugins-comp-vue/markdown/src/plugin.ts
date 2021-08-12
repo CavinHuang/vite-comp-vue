@@ -5,10 +5,12 @@ import { Plugin } from 'vite'
 import path from 'path'
 import { createMarkdownToVueRenderFn } from './markdownToVue'
 import { DemoBlockType } from './markdown'
+import { slash, resolvePath } from './utils/slash'
 
 const docRoot = path.resolve(process.cwd(), './src/packages')
 
 let hasDeadLinks: boolean = false
+let transformVisualVd = false
 
 const cacheDemos: Map<string, DemoBlockType[]> = new Map()
 
@@ -23,32 +25,32 @@ export default ():Plugin => {
         return path.join(docRoot, id)
       }
       if (/\.md\.vdpv_(\d+)\.vd$/.test(id)) {
+        if (transformVisualVd) return id
         const idPath: string = id.startsWith(docRoot + '/') ? id : path.join(docRoot, id.substr(1))
-        console.log('=少时诵诗书', id)
-        console.log('+++++', id)
-        console.log('+++++', idPath)
+        transformVisualVd = true
         return idPath
       }
     },
     load(id) {
       const mat = id.match(/\.md\.vdpv_(\d+)\.vd$/)
       if (mat && mat.length >= 2) {
+        id = resolvePath(slash(docRoot), slash(id.substr(1)))
         const index: number = Number(mat[1])
         const mdFileName = id.replace(`.vdpv_${index}.vd`, '')
-        console.log(index, mdFileName)
         const demoBlocks = cacheDemos.get(mdFileName)
-        return demoBlocks?.[index].code
+        console.log('cacheDemos', demoBlocks)
+        return 'export default {}'
       }
     },
     transform(code, id) {
       if (id.toLowerCase().endsWith('.md')) {
-        const filePath = id.startsWith(docRoot + '/') ? id : path.join(docRoot, id.substr(1))
         const { vueSrc, deadLinks, demoBlocks } = markdownToVue(code, id)
-        cacheDemos.set(filePath, demoBlocks)
-        // console.log('block', id, vueSrc, demoBlocks)
+        cacheDemos.set(id, demoBlocks)
+        console.log('block', demoBlocks)
         if (deadLinks.length) {
           hasDeadLinks = true
         }
+        transformVisualVd = false
         return {
           code: vueSrc
         }
