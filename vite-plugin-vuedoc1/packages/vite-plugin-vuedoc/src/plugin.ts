@@ -18,7 +18,7 @@ export type VueDocPluginOptions = {
 }
 
 const cacheDemos: Map<string, DemoBlockType[]> = new Map()
-
+export const vueDocFiles = [/\.vue$/, /\.md$/, /\.vd$/]
 export function createVueDocPlugin(options: Partial<VueDocPluginOptions>) {
   const { wrapperClass = '', previewClass = '', previewComponent = '', markdownIt, highlight } = options
   const { plugins = [] } = markdownIt || {}

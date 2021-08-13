@@ -83,7 +83,6 @@ export const createMarkdownRenderer = (
     quotes: '\u201c\u201d\u2018\u2019',
     highlight: (originCode, lang, attrStr) => {
       const { htmlStr, demoBlocks: demoBlocksDemo } = highlight(root, originCode, lang, attrStr)
-      console.log("s=s=s==s=ss=s=s=", demoBlocksDemo)
       demoBlocks.push(...demoBlocksDemo)
       return htmlStr
     },
@@ -92,8 +91,7 @@ export const createMarkdownRenderer = (
 
   // custom plugins
   md.use((md) => {
-    const demoBlocksDemo = demoPlugin(root, md)
-    demoBlocks.push(...demoBlocksDemo)
+    demoPlugin(root, md)
   })
     .use(componentPlugin)
     .use(highlightLinePlugin)

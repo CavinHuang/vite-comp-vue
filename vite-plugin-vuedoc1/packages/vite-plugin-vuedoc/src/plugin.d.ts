@@ -10,4 +10,5 @@ export declare type VueDocPluginOptions = {
         theme: 'one-dark' | 'one-light' | string;
     };
 };
+export declare const vueDocFiles: RegExp[];
 export declare function createVueDocPlugin(options: Partial<VueDocPluginOptions>): Plugin[];
