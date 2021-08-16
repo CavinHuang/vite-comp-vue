@@ -121,13 +121,6 @@ export const highlight = (root: string, str: string, lang: string, attrStr: stri
     }
   }
   if (prism.languages[lang]) {
-    // if (isVueDemo) {
-    //   const code = prism.highlight(componentCode, prism.languages[lang], lang)
-    //   console.log(isImport, importSrc, componentCode)
-    //   return {
-    //     htmlStr: `<Demo codeStr="${componentCode}" htmlStr="${wrap(code, rawLang)}"></Demo>`
-    //   }
-    // }
     const code = prism.highlight(str, prism.languages[lang], lang)
     return {
       htmlStr: wrap(code, rawLang),

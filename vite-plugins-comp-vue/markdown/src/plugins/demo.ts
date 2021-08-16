@@ -1,9 +1,10 @@
-import { DemoBlockType } from './../../../../vite-plugin-vuedoc1/packages/vite-plugin-vuedoc/src/markdown-it/index';
+import { demoBlockBus } from './../utils/data';
 import MarkdownIt from 'markdown-it'
 import { MarkdownParsedData } from '../markdown'
 import fs from 'fs'
 import { highlight } from './highlight'
 import path from 'path'
+import {slash } from '../utils/slash'
 // import matter from 'gray-matter'
 
 // interface DemoProps {
@@ -19,13 +20,17 @@ let index = 1
 // so that they can be placed outside as SFC blocks.
 export const demoPlugin = (root: string, md: MarkdownIt) => {
   const RE = /<demo /i
-  let demoBlocks: DemoBlockType[] = []
   md.renderer.rules.fence = (tokens, idx) => {
     const token = tokens[idx]
     const content = token.content
     if (token.info === 'vue demo') {
       let { htmlStr, demoBlocks: demoBlocksDemo } = highlight(root, decodeURIComponent(content.replace('\\n', '')), 'vue', 'demo')
-      demoBlocks.push(...demoBlocksDemo)
+      const { relativePath } = md as any
+      console.log(slash(root), slash('/' + relativePath))
+      const id = path.resolve(slash(root), slash(relativePath))
+      const mdFileName = id.replace(`.vdpv_${index}.vd`, '').replace(/\\/g, '')
+
+      demoBlockBus.setCache(mdFileName, demoBlocksDemo)
       const data = (md as any).__data as MarkdownParsedData
       htmlStr = encodeURIComponent(htmlStr)
 
@@ -35,14 +40,7 @@ export const demoPlugin = (root: string, md: MarkdownIt) => {
         style: [],
         components: []
       })
-
-      const { relativePath } = md as any
-      
-      // console.log('realPath =' + realPath)
-      // console.log('absolutePath =' + absolutePath)
-
       let resultStr = ''
-
       const componentName = 'VueDemo0'
 
       hoistedTags.script!.unshift(
@@ -118,6 +116,4 @@ export const demoPlugin = (root: string, md: MarkdownIt) => {
       return content
     }
   }
-
-  return demoBlocks
 }

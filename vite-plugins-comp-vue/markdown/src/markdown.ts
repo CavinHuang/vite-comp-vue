@@ -91,9 +91,7 @@ export const createMarkdownRenderer = (
 
   // custom plugins
   md.use((md) => {
-    const demoBlocksDemo = demoPlugin(root, md)
-    console.log("s=s=s==s=ss=s=s=", demoBlocksDemo)
-    demoBlocks.push(...demoBlocksDemo)
+    demoPlugin(root, md)
   })
     .use(componentPlugin)
     .use(highlightLinePlugin)

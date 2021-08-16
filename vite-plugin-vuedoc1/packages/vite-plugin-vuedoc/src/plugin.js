@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createVueDocPlugin = void 0;
+exports.createVueDocPlugin = exports.vueDocFiles = void 0;
 const markdownToVue_1 = require("./markdownToVue");
 const path_1 = __importDefault(require("path"));
 const debug = require('debug')('vite:vuedoc:plugin');
 const cacheDemos = new Map();
+exports.vueDocFiles = [/\.vue$/, /\.md$/, /\.vd$/];
 function createVueDocPlugin(options) {
     const { wrapperClass = '', previewClass = '', previewComponent = '', markdownIt, highlight } = options;
     const { plugins = [] } = markdownIt || {};
