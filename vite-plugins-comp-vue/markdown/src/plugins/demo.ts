@@ -25,7 +25,6 @@ export const demoPlugin = (root: string, md: MarkdownIt) => {
     const content = token.content
     if (token.info === 'vue demo') {
       let { htmlStr, demoBlocks: demoBlocksDemo } = highlight(root, decodeURIComponent(content.replace('\\n', '')), 'vue', 'demo')
-      console.log('aaaaaaaaa', demoBlocksDemo)
       demoBlocks.push(...demoBlocksDemo)
       const data = (md as any).__data as MarkdownParsedData
       htmlStr = encodeURIComponent(htmlStr)
