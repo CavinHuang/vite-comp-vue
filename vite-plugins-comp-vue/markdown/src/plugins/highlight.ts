@@ -1,3 +1,4 @@
+import { __pageData } from './../markdownToVue';
 import path from 'path'
 import fs from 'fs-extra'
 import { DemoBlockType } from 'src/markdown'
@@ -31,15 +32,19 @@ function unquote(str: string) {
   return ret
 }
 
-let id = 0
-const getId = () => {
-  return id++
+const idMaps: {[key: string]: number} = {}
+const getId = (fileName: string) => {
+  let id = idMaps[fileName]
+  if (!id) id = 0
+  idMaps[fileName] = id
+  return id
 }
 
 const demoBlocks: DemoBlockType[] = []
 
 const renderCodeBlock = (
 root: string, 
+fileName: string,
 _code: string, 
 lang: string, 
 attrStr: string = ''
@@ -61,7 +66,7 @@ attrStr: string = ''
   }
 
   if (isVueDemo) {
-    const componentCode = isImport
+    let componentCode = isImport
       ? `<template>
           <ImportDemo />
         </template>
@@ -75,20 +80,33 @@ attrStr: string = ''
         </script>
         `
       : code
-    
+
+      
+      if (!isImport) {
+        const reg = /\s*(import[^"']*["' ]([^'"\s)]*)["' ])/g
+        const pathReg = /['"](.*)['"]/
+        const result = componentCode.match(reg)
+        if (result && result.length) {
+          result.forEach(item => {
+            const _paths = item.match(pathReg)
+            if (_paths) {
+              const _pathResult = path.resolve(path.dirname(fileName), _paths[1])
+              const _id = item.replace(_paths[1], _pathResult)
+              componentCode = componentCode.replace(item, _id).replace(process.cwd(), '').replace(/\\/g, '/')
+            }
+          })
+        }
+      }
     demoBlocks.push({
-      id: `vueDemo${getId()}`,
+      id: `vdpv_${getId(fileName)}`,
       code: componentCode
     })  
   }
   return demoBlocks
 }
 
-
-
-
-export const highlight = (root: string, str: string, lang: string, attrStr: string) => {
-  const demoBlocks = renderCodeBlock(root, str, lang, attrStr)
+export const highlight = (root: string, fileName: string, str: string, lang: string, attrStr: string) => {
+  const demoBlocks = renderCodeBlock(root, fileName, str, lang, attrStr)
   if (!lang) {
     return {
       htmlStr: wrap(str, 'text'),

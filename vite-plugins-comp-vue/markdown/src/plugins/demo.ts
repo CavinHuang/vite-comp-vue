@@ -24,13 +24,11 @@ export const demoPlugin = (root: string, md: MarkdownIt) => {
     const token = tokens[idx]
     const content = token.content
     if (token.info === 'vue demo') {
-      let { htmlStr, demoBlocks: demoBlocksDemo } = highlight(root, decodeURIComponent(content.replace('\\n', '')), 'vue', 'demo')
       const { relativePath } = md as any
-      console.log(slash(root), slash('/' + relativePath))
       const id = path.resolve(slash(root), slash(relativePath))
-      const mdFileName = id.replace(`.vdpv_${index}.vd`, '').replace(/\\/g, '')
-
-      demoBlockBus.setCache(mdFileName, demoBlocksDemo)
+      const mdFileName = id.replace(`.vdpv_${index}.vd`, '')
+      let { htmlStr, demoBlocks: demoBlocksDemo } = highlight(root, mdFileName, decodeURIComponent(content.replace('\\n', '')), 'vue', 'demo')
+      demoBlockBus.setCache(mdFileName.replace(/\\/g, ''), demoBlocksDemo)
       const data = (md as any).__data as MarkdownParsedData
       htmlStr = encodeURIComponent(htmlStr)
 
@@ -41,7 +39,7 @@ export const demoPlugin = (root: string, md: MarkdownIt) => {
         components: []
       })
       let resultStr = ''
-      const componentName = 'VueDemo0'
+      const componentName = 'vdpv_0'
 
       hoistedTags.script!.unshift(
         `import ${componentName} from '/${relativePath}.vdpv_0.vd' \n`
@@ -96,7 +94,7 @@ export const demoPlugin = (root: string, md: MarkdownIt) => {
       // TODO cache it
       const codeStr = fs.readFileSync(absolutePath).toString()
       // const { content: codeContent, data: frontmatter } = matter(codeStr)
-      let { htmlStr } = highlight(root, codeStr, language, '')
+      let { htmlStr } = highlight(root, absolutePath, codeStr, language, '')
       htmlStr = encodeURIComponent(htmlStr)
 
       hoistedTags.script!.unshift(

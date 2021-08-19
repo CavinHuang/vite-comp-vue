@@ -48,7 +48,7 @@
 <template>
   <div>
     <Test />
-    <div>12333322222sss32</div>
+    <div>的点点滴滴</div>
   </div>
 </template>
 <script>

@@ -70,6 +70,7 @@ export interface MarkdownCreator {
 
 export const createMarkdownRenderer = (
   root: string,
+  id: string,
   options: MarkdownOptions = {}
 ): MarkdownCreator => {
   let demoBlocks: DemoBlockType[] = []
@@ -82,7 +83,7 @@ export const createMarkdownRenderer = (
     typographer: true,
     quotes: '\u201c\u201d\u2018\u2019',
     highlight: (originCode, lang, attrStr) => {
-      const { htmlStr, demoBlocks: demoBlocksDemo } = highlight(root, originCode, lang, attrStr)
+      const { htmlStr, demoBlocks: demoBlocksDemo } = highlight(root, id, originCode, lang, attrStr)
       demoBlocks.push(...demoBlocksDemo)
       return htmlStr
     },
