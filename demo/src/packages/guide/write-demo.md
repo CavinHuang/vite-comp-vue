@@ -48,7 +48,25 @@
 <template>
   <div>
     <Test />
-    <div>的点点滴滴</div>
+    <div>ssssss</div>
+  </div>
+</template>
+<script>
+import Test from '../../components/Test.tsx'
+
+export default {
+  components: {
+    Test
+  }
+}
+</script>  
+```
+
+```vue demo
+<template>
+  <div>
+    <Test />
+    <div>ddddddaaasss</div>
   </div>
 </template>
 <script>

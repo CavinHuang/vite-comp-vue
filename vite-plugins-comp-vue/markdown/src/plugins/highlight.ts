@@ -35,7 +35,8 @@ function unquote(str: string) {
 const idMaps: {[key: string]: number} = {}
 const getId = (fileName: string) => {
   let id = idMaps[fileName]
-  if (!id) id = 0
+  if (id === void 0) id = 1
+  else id++
   idMaps[fileName] = id
   return id
 }
