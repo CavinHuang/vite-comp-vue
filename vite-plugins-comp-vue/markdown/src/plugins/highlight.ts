@@ -1,4 +1,4 @@
-import { __pageData } from './../markdownToVue';
+import { getId } from './../utils/pageId';
 import path from 'path'
 import fs from 'fs-extra'
 import { DemoBlockType } from 'src/markdown'
@@ -30,15 +30,6 @@ function unquote(str: string) {
     ret = ret.substr(0, ret.length - 1)
   }
   return ret
-}
-
-const idMaps: {[key: string]: number} = {}
-const getId = (fileName: string) => {
-  let id = idMaps[fileName]
-  if (id === void 0) id = 1
-  else id++
-  idMaps[fileName] = id
-  return id
 }
 
 const demoBlocks: DemoBlockType[] = []

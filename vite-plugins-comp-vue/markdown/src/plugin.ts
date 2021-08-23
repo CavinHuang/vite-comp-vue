@@ -1,3 +1,4 @@
+import { resetId } from './utils/pageId';
 import { cache } from './markdownToVue';
 /**
  * markdown 解析插件
@@ -30,10 +31,10 @@ export default ():Plugin => {
         return path.join(docRoot, id)
       }
       if (/\.md\.vdpv_(\d+)\.vd$/.test(id)) {
-        if (transformVisualVd) return id
-        const idPath: string = id.startsWith(docRoot + '/') ? id : path.join(docRoot, id.substr(1))
-        transformVisualVd = true
-        return idPath
+        // if (transformVisualVd) return id
+        // const idPath: string = id.startsWith(docRoot + '/') ? id : path.join(docRoot, id.substr(1))
+        // transformVisualVd = true
+        return id
       }
     },
     load(id) {
@@ -52,9 +53,11 @@ export default ():Plugin => {
         console.log('demoId',demoId)
         console.log('mdFileName',mdFileName)
         console.log('demoBlocks',demoBlocks)
+        console.log('_demoData',_demoData)
         console.log('demoBlockBus',demoBlockBus.cacheDemos)
         const getLastDemo = _demoData.filter(item => item.id === demoId)
         console.log('代码块', getLastDemo, getLastDemo[getLastDemo.length - 1])
+        transformVisualVd = false
         return demoBlocks ? getLastDemo[getLastDemo.length - 1] : 'export default {}'
       }
     },
@@ -71,6 +74,7 @@ export default ():Plugin => {
           code: vueSrc
         }
       }
+      transformVisualVd = false
       return {
         code
       }
@@ -87,9 +91,10 @@ export default ():Plugin => {
         const content = await read()
         console.log(`handleHotUpdate: md -> ${file}`)
         const cacheKey = file.replace(/[/\\]/g, '')
-        demoBlockBus.setCache(cacheKey, [])
+        // demoBlockBus.setCache(cacheKey, [])
+        // resetId(cacheKey)
         const markdownToVue = createMarkdownToVueRenderFn(docRoot, file, undefined, [])
-        const { vueSrc, deadLinks } = markdownToVue(content, file)
+        const { vueSrc, deadLinks, demoBlocks: demos } = markdownToVue(content, file)
         const prevDemoBlocks = [...(cacheDemos.get(cacheKey) || [])]
         const updateModules: ModuleNode[] = []
         //     file: string;
@@ -97,6 +102,7 @@ export default ():Plugin => {
         // modules: Array<ModuleNode>;
         // read: () => string | Promise<string>;
         // server: ViteDevServer;
+        console.log('测试数据新render', demos)
         const demoBlocks = demoBlockBus.getCache(cacheKey) || []
         console.log('上一次跟现有的', prevDemoBlocks, demoBlocks)
         demoBlocks.forEach(async (demo, index) => {

@@ -1,4 +1,4 @@
-import { resolve } from 'path';
+import path from 'path';
 export function slash(p: string): string {
   return p.replace(/\\/g, '/')
 }
@@ -8,18 +8,18 @@ export function resolvePath(basePath: string, relativePath: string): string {
   let tmpStr = ''
   basePath = slash(basePath)
   relativePath = slash(relativePath)
-  console.log('basePath', basePath)
-  console.log('relativePath', relativePath)
   while(i < relativePath.length) {
     const _tmpStr = tmpStr + relativePath[i]
+    console.log('_tmpStr', _tmpStr)
     if (!basePath.includes(_tmpStr)) {
       break
     }
     tmpStr = _tmpStr
     i++
   }
-
-  console.log('_tmpStr', _tmpStr)
-
-  return resolve(basePath, relativePath.replace(tmpStr, ''))
+  relativePath = relativePath.replace(tmpStr, '')
+  console.log('_tmpStr', tmpStr)
+  console.log('basePath', basePath)
+  console.log('relativePath', relativePath)
+  return path.join(basePath, relativePath)
 }
