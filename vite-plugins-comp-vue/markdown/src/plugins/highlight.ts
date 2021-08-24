@@ -97,8 +97,8 @@ attrStr: string = ''
   return demoBlocks
 }
 
-export const highlight = (root: string, fileName: string, str: string, lang: string, attrStr: string) => {
-  const demoBlocks = renderCodeBlock(root, fileName, str, lang, attrStr)
+export const highlight = (root: string, fileName: string, str: string, lang: string, attrStr: string, parseCode = false) => {
+  const demoBlocks = parseCode ? renderCodeBlock(root, fileName, str, lang, attrStr) : []
   if (!lang) {
     return {
       htmlStr: wrap(str, 'text'),

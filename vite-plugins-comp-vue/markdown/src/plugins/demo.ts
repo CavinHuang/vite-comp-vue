@@ -16,7 +16,13 @@ import {slash } from '../utils/slash'
 // }
 
 let index = 1
-let visualIndex = 1
+let visualIndex = 0
+export const getVisualIndex = () => {
+  return visualIndex++
+}
+export const resetVisualIndex = () => {
+  visualIndex = 0
+}
 // hoist <script> and <style> tags out of the returned html
 // so that they can be placed outside as SFC blocks.
 export const demoPlugin = (root: string, md: MarkdownIt) => {
@@ -27,8 +33,9 @@ export const demoPlugin = (root: string, md: MarkdownIt) => {
     if (token.info === 'vue demo') {
       const { relativePath } = md as any
       const id = path.resolve(slash(root), slash(relativePath))
-      const mdFileName = id.replace(`.vdpv_${visualIndex}.vd`, '')
-      let { htmlStr, demoBlocks: demoBlocksDemo } = highlight(root, mdFileName, decodeURIComponent(content.replace('\\n', '')), 'vue', 'demo')
+      const _index = getVisualIndex()
+      const mdFileName = id.replace(`.vdpv_${_index}.vd`, '')
+      let { htmlStr, demoBlocks: demoBlocksDemo } = highlight(root, mdFileName, decodeURIComponent(content.replace('\\n', '')), 'vue', 'demo', true)
       demoBlockBus.setCache(mdFileName.replace(/\\/g, ''), demoBlocksDemo)
       const data = (md as any).__data as MarkdownParsedData
       htmlStr = encodeURIComponent(htmlStr)
@@ -50,7 +57,6 @@ export const demoPlugin = (root: string, md: MarkdownIt) => {
       resultStr += `<Demo componentName="${componentName}" htmlStr="${htmlStr}" codeStr="${encodeURIComponent(
         content
       )}"><${componentName}></${componentName}></Demo>`
-      visualIndex ++
       return resultStr
     }
     return ''

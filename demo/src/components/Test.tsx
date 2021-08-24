@@ -8,10 +8,14 @@ export default defineComponent({
     const onClickHandler = () => {
       number.value ++
     }
+    const clickAlert = () => {
+      alert("测试测试测试" + number.value)
+    }
     return () => (
       <>
-        <button onClick={onClickHandler}>点我+1</button>
+        <button onClick={onClickHandler}>点我1111+1</button>
         <div>当前数值：{ number.value }</div>
+        <button onClick={clickAlert}>显示弹窗</button>
       </>
     )
   }

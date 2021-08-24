@@ -1,3 +1,4 @@
+import { resetVisualIndex } from './plugins/demo';
 import { resetId } from './utils/pageId';
 import { cache } from './markdownToVue';
 /**
@@ -64,6 +65,8 @@ export default ():Plugin => {
     transform(code, id) {
       if (id.toLowerCase().endsWith('.md')) {
         console.log('md path', id)
+        resetId(id)
+        resetVisualIndex()
         const markdownToVue = createMarkdownToVueRenderFn(docRoot, id, undefined, [])
         const { vueSrc, deadLinks } = markdownToVue(code, id)
         if (deadLinks.length) {
@@ -91,8 +94,10 @@ export default ():Plugin => {
         const content = await read()
         console.log(`handleHotUpdate: md -> ${file}`)
         const cacheKey = file.replace(/[/\\]/g, '')
-        // demoBlockBus.setCache(cacheKey, [])
-        // resetId(cacheKey)
+        console.log('sssssssssssssssssssssssssssssssssssssssssssss', cacheKey, demoBlockBus.cacheDemos)
+        demoBlockBus.setCache(cacheKey, [])
+        resetId(cacheKey)
+        resetVisualIndex()
         const markdownToVue = createMarkdownToVueRenderFn(docRoot, file, undefined, [])
         const { vueSrc, deadLinks, demoBlocks: demos } = markdownToVue(content, file)
         const prevDemoBlocks = [...(cacheDemos.get(cacheKey) || [])]
@@ -110,9 +115,9 @@ export default ():Plugin => {
           console.log('++++++sdsdsadasdsa', prevDemo, prevDemoBlocks)
           if (!prevDemo || demo.id !== prevDemo.id || demo.code !== prevDemo.code) {
             let demoFile = `${file}.${demo.id}.vd`
-            console.log(demoFile, docRoot)
             // /src/packages/guide/write-demo.md.vdpv_0.vd
-            demoFile = demoFile.replace(process.cwd().replace(/\\/g, '/'), '')
+            demoFile = demoFile.replace(docRoot.replace(/\\/g, '/'), '')
+            console.log('demoFile', demoFile, docRoot)
             console.log(`handleHotUpdate: demo -> ${demoFile}`)
             const mods = moduleGraph.getModulesByFile(demoFile)
             const ret = await vuePlugin.handleHotUpdate!({
