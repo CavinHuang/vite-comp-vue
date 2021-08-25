@@ -5,7 +5,6 @@ export const getId = (fileName: string) => {
   if (id === void 0) id = 1
   else id++
   idMaps[fileName] = id
-  console.log('id map =================================================+++++', idMaps)
   return id
 }
 

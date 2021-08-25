@@ -1,6 +1,5 @@
 import { resetVisualIndex } from './plugins/demo';
 import { resetId } from './utils/pageId';
-import { cache } from './markdownToVue';
 /**
  * markdown 解析插件
  */
@@ -13,8 +12,6 @@ import { DemoBlockType } from './markdown';
 
 const docRoot = path.resolve(process.cwd(), './src/packages')
 
-let hasDeadLinks: boolean = false
-let transformVisualVd = false
 let vuePlugin: any | undefined
 const cacheDemos: Map<string, DemoBlockType[]> = new Map()
 
@@ -41,7 +38,6 @@ export default ():Plugin => {
     load(id) {
       const mat = id.match(/\.md\.vdpv_(\d+)\.vd$/)
       if (mat && mat.length >= 2) {
-        console.log('++++++++++++++++', id, docRoot)
         id = resolvePath(slash(docRoot), slash(id))
         const index: number = Number(mat[1])
         const demoId = `vdpv_${index}`
@@ -49,16 +45,7 @@ export default ():Plugin => {
         const demoBlocks = demoBlockBus.getCache(mdFileName)!
         const _demoData = [...demoBlocks || []]
         cacheDemos.set(mdFileName, _demoData)
-        console.log('mat',mat)
-        console.log('id',id)
-        console.log('demoId',demoId)
-        console.log('mdFileName',mdFileName)
-        console.log('demoBlocks',demoBlocks)
-        console.log('_demoData',_demoData)
-        console.log('demoBlockBus',demoBlockBus.cacheDemos)
         const getLastDemo = _demoData.filter(item => item.id === demoId)
-        console.log('代码块', getLastDemo, getLastDemo[getLastDemo.length - 1])
-        transformVisualVd = false
         return demoBlocks ? getLastDemo[getLastDemo.length - 1] : 'export default {}'
       }
     },
@@ -68,16 +55,11 @@ export default ():Plugin => {
         resetId(id)
         resetVisualIndex()
         const markdownToVue = createMarkdownToVueRenderFn(docRoot, id, undefined, [])
-        const { vueSrc, deadLinks } = markdownToVue(code, id)
-        if (deadLinks.length) {
-          hasDeadLinks = true
-        }
-        transformVisualVd = false
+        const { vueSrc } = markdownToVue(code, id)
         return {
           code: vueSrc
         }
       }
-      transformVisualVd = false
       return {
         code
       }
@@ -94,12 +76,11 @@ export default ():Plugin => {
         const content = await read()
         console.log(`handleHotUpdate: md -> ${file}`)
         const cacheKey = file.replace(/[/\\]/g, '')
-        console.log('sssssssssssssssssssssssssssssssssssssssssssss', cacheKey, demoBlockBus.cacheDemos)
         demoBlockBus.setCache(cacheKey, [])
         resetId(cacheKey)
         resetVisualIndex()
         const markdownToVue = createMarkdownToVueRenderFn(docRoot, file, undefined, [])
-        const { vueSrc, deadLinks, demoBlocks: demos } = markdownToVue(content, file)
+        const { vueSrc } = markdownToVue(content, file)
         const prevDemoBlocks = [...(cacheDemos.get(cacheKey) || [])]
         const updateModules: ModuleNode[] = []
         //     file: string;
@@ -107,17 +88,13 @@ export default ():Plugin => {
         // modules: Array<ModuleNode>;
         // read: () => string | Promise<string>;
         // server: ViteDevServer;
-        console.log('测试数据新render', demos)
         const demoBlocks = demoBlockBus.getCache(cacheKey) || []
-        console.log('上一次跟现有的', prevDemoBlocks, demoBlocks)
         demoBlocks.forEach(async (demo, index) => {
           const prevDemo = prevDemoBlocks[index]
-          console.log('++++++sdsdsadasdsa', prevDemo, prevDemoBlocks)
           if (!prevDemo || demo.id !== prevDemo.id || demo.code !== prevDemo.code) {
             let demoFile = `${file}.${demo.id}.vd`
             // /src/packages/guide/write-demo.md.vdpv_0.vd
             demoFile = demoFile.replace(docRoot.replace(/\\/g, '/'), '')
-            console.log('demoFile', demoFile, docRoot)
             console.log(`handleHotUpdate: demo -> ${demoFile}`)
             const mods = moduleGraph.getModulesByFile(demoFile)
             const ret = await vuePlugin.handleHotUpdate!({
@@ -127,7 +104,6 @@ export default ():Plugin => {
               server: server,
               read: () => demo.code
             })
-            console.log('+++++++++', vuePlugin, ret)
             if (ret) {
               updateModules.push(...ret)
             }

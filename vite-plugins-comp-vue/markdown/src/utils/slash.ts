@@ -10,7 +10,6 @@ export function resolvePath(basePath: string, relativePath: string): string {
   relativePath = slash(relativePath)
   while(i < relativePath.length) {
     const _tmpStr = tmpStr + relativePath[i]
-    console.log('_tmpStr', _tmpStr)
     if (!basePath.includes(_tmpStr)) {
       break
     }
@@ -18,8 +17,5 @@ export function resolvePath(basePath: string, relativePath: string): string {
     i++
   }
   relativePath = relativePath.replace(tmpStr, '')
-  console.log('_tmpStr', tmpStr)
-  console.log('basePath', basePath)
-  console.log('relativePath', relativePath)
   return path.join(basePath, relativePath)
 }

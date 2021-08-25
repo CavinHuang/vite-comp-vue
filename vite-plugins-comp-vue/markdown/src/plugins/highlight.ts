@@ -35,10 +35,10 @@ function unquote(str: string) {
 const demoBlocks: DemoBlockType[] = []
 
 const renderCodeBlock = (
-root: string, 
+root: string,
 fileName: string,
-_code: string, 
-lang: string, 
+_code: string,
+lang: string,
 attrStr: string = ''
 ) => {
   let code = _code
@@ -73,7 +73,6 @@ attrStr: string = ''
         `
       : code
 
-      
       if (!isImport) {
         const reg = /\s*(import[^"']*["' ]([^'"\s)]*)["' ])/g
         const pathReg = /['"](.*)['"]/
@@ -92,7 +91,7 @@ attrStr: string = ''
     demoBlocks.push({
       id: `vdpv_${getId(fileName)}`,
       code: componentCode
-    })  
+    })
   }
   return demoBlocks
 }

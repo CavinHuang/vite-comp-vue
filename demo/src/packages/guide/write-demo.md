@@ -83,7 +83,6 @@ export default {
 - 第三种
 
 \`\`\`vue demo src="./test.vue"
-
 \`\`\`
 
 \`\`\`typescript src="./test.ts"

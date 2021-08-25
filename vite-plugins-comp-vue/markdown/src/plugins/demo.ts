@@ -1,10 +1,12 @@
 import { demoBlockBus } from './../utils/data';
 import MarkdownIt from 'markdown-it'
-import { MarkdownParsedData } from '../markdown'
+import { DemoBlockType, MarkdownParsedData } from '../markdown'
 import fs from 'fs'
 import { highlight } from './highlight'
+import { highlight as highlightDemo } from './highlight_demo'
 import path from 'path'
 import {slash } from '../utils/slash'
+import escape from '../utils/escape'
 // import matter from 'gray-matter'
 
 // interface DemoProps {
@@ -23,6 +25,12 @@ export const getVisualIndex = () => {
 export const resetVisualIndex = () => {
   visualIndex = 0
 }
+
+type highlightType = {
+    htmlStr: string;
+    demoBlocks: DemoBlockType[];
+}
+
 // hoist <script> and <style> tags out of the returned html
 // so that they can be placed outside as SFC blocks.
 export const demoPlugin = (root: string, md: MarkdownIt) => {
@@ -49,7 +57,6 @@ export const demoPlugin = (root: string, md: MarkdownIt) => {
       let resultStr = ''
 
       const componentName = 'vdpv_' + visualIndex
-      console.log('sssssssssssssssssssssssssssss==============>', relativePath, id)
       hoistedTags.script!.unshift(
         `import ${componentName} from '/${relativePath}.vdpv_${visualIndex}.vd' \n`
       )
@@ -59,7 +66,9 @@ export const demoPlugin = (root: string, md: MarkdownIt) => {
       )}"><${componentName}></${componentName}></Demo>`
       return resultStr
     }
-    return ''
+    let language = (content.match(/language=("|')(.*)('|")/) || [])[2] ?? ''
+    let htmlStr = highlightDemo(content, language)
+    return htmlStr
   }
 
   md.renderer.rules.html_inline = (tokens, idx) => {
@@ -75,9 +84,7 @@ export const demoPlugin = (root: string, md: MarkdownIt) => {
     let language = (content.match(/language=("|')(.*)('|")/) || [])[2] ?? ''
     if (RE.test(content.trim())) {
       const componentName = `demo${index++}`
-      
       const src = (content.match(/src=("|')(\S+)('|")/) || [])[2] ?? ''
-
       const { realPath, urlPath } = md as any
       const absolutePath = path
         .resolve(realPath ?? urlPath, '../', src)
@@ -101,7 +108,7 @@ export const demoPlugin = (root: string, md: MarkdownIt) => {
       // TODO cache it
       const codeStr = fs.readFileSync(absolutePath).toString()
       // const { content: codeContent, data: frontmatter } = matter(codeStr)
-      let { htmlStr } = highlight(root, absolutePath, codeStr, language, '')
+      let htmlStr = highlightDemo(codeStr, language)
       htmlStr = encodeURIComponent(htmlStr)
 
       hoistedTags.script!.unshift(

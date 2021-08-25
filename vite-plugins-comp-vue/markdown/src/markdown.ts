@@ -1,6 +1,6 @@
 import MarkdownIt from 'markdown-it'
 import { parseHeader } from './utils/parseHeader'
-import { highlight } from './plugins/highlight'
+import { highlight } from './plugins/highlight_demo'
 import { slugify } from './plugins/slugify'
 import { highlightLinePlugin } from './plugins/highlightLines'
 import { lineNumberPlugin } from './plugins/lineNumbers'
@@ -76,17 +76,8 @@ export const createMarkdownRenderer = (
   let demoBlocks: DemoBlockType[] = []
   const md = MarkdownIt({
     html: true,
-    xhtmlOut: true,
-    breaks: false,
-    langPrefix: 'language-',
     linkify: true,
-    typographer: true,
-    quotes: '\u201c\u201d\u2018\u2019',
-    highlight: (originCode, lang, attrStr) => {
-      const { htmlStr, demoBlocks: demoBlocksDemo } = highlight(root, id, originCode, lang, attrStr)
-      demoBlocks.push(...demoBlocksDemo)
-      return htmlStr
-    },
+    highlight,
     ...options
   })
 
