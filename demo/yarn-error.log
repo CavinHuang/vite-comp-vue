@@ -1,11 +1,11 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js
+  F:\nodejs\node.exe F:\node_global\node_modules\yarn\bin\yarn.js add @types/node
 
 PATH: 
-  C:\Program Files\PowerShell\7;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;%NVM_HOME%;%NVM_SYMLINK%;C:\Users\Administrator\AppData\Local\Microsoft\WindowsApps;C:\Users\Administrator\AppData\Local\Programs\Microsoft VS Code\bin;E:\programs\nvm;C:\Program Files\nodejs
+  F:\Programs\python3\Scripts\;F:\Programs\python3\;C:\Python27\;C:\Python27\Scripts;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;F:\Programs\nvm;F:\nodejs;F:\node_global\;F:\Programs\Git\cmd;G:\wamp\wamp\php745;C:\ProgramData\ComposerSetup\bin;F:\Programs\redis\;C:\ProgramData\Anaconda3;C:\ProgramData\Anaconda3\Library\mingw-w64\bin;C:\ProgramData\Anaconda3\Library\bin;C:\ProgramData\Anaconda3\Scripts;F:\Programs\Tesseract-OCR;C:\HashiCorp\Vagrant\bin;C:\Users\dell\AppData\Local\Microsoft\WindowsApps;F:\Programs\nvm;F:\nodejs;F:\Programs\Microsoft VS Code\bin;C:\Users\dell\AppData\Roaming\Composer\vendor\bin;C:\Program Files\JetBrains\PyCharm 2020.3.3\bin;;
 
 Yarn version: 
-  1.22.11
+  1.22.10
 
 Node version: 
   14.17.3
@@ -15,12 +15,12 @@ Platform:
 
 Trace: 
   Error: https://registry.npm.taobao.org/vite-comp-vue-markdown: Not found
-      at Request.params.callback [as _callback] (E:\programs\nvm\v14.17.3\node_modules\yarn\lib\cli.js:66992:18)
-      at Request.self.callback (E:\programs\nvm\v14.17.3\node_modules\yarn\lib\cli.js:140763:22)
+      at Request.params.callback [as _callback] (F:\node_global\node_modules\yarn\lib\cli.js:66988:18)
+      at Request.self.callback (F:\node_global\node_modules\yarn\lib\cli.js:140662:22)
       at Request.emit (events.js:375:28)
-      at Request.<anonymous> (E:\programs\nvm\v14.17.3\node_modules\yarn\lib\cli.js:141735:10)
+      at Request.<anonymous> (F:\node_global\node_modules\yarn\lib\cli.js:141634:10)
       at Request.emit (events.js:375:28)
-      at IncomingMessage.<anonymous> (E:\programs\nvm\v14.17.3\node_modules\yarn\lib\cli.js:141657:12)
+      at IncomingMessage.<anonymous> (F:\node_global\node_modules\yarn\lib\cli.js:141556:12)
       at Object.onceWrapper (events.js:481:28)
       at IncomingMessage.emit (events.js:387:35)
       at endReadableNT (internal/streams/readable.js:1317:12)
@@ -31,7 +31,7 @@ npm manifest:
     "name": "my-vue-app",
     "version": "0.0.0",
     "scripts": {
-      "dev": "vite",
+      "dev": "vite --debug",
       "build": "vue-tsc --noEmit && vite build",
       "serve": "vite preview"
     },
@@ -47,7 +47,8 @@ npm manifest:
       "vite": "^2.4.4",
       "vue-tsc": "^0.2.2",
       "vite-comp-vue-markdown": "1.0.0",
-      "vite-comp-vue-runtime": "1.0.0"
+      "vite-comp-vue-runtime": "1.0.0",
+      "vite-comp-vue-types": "1.0.0"
     }
   }
 

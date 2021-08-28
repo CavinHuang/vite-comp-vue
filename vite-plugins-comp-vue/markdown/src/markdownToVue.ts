@@ -96,6 +96,7 @@ export function createMarkdownToVueRenderFn(
 
     injectPageData(data.hoistedTags, pageData)
 
+    data.hoistedTags.script.push(`import componentData from 'vueCompTypes:${relativePath.replace('.md', '')}'`)
     const vueSrc =
       `<script>${(data.hoistedTags.script ?? []).join('\n')}</script>` +
       `<style>${(data.hoistedTags.style ?? []).join('\n')}</style>` +

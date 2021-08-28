@@ -126,6 +126,7 @@ export function getAstValue(ast: Node | null): string {
 
 interface SlotAst {
   slot: cheerio.Element;
+  // @ts-ignore
   comment?: cheerio.CommentElement | null;
 }
 
@@ -137,10 +138,12 @@ export function getSlotsByTemplate(template: SFCTemplateBlock): Slot[] {
   const slotAsts: SlotAst[] = [];
 
   $contents.map((index, el) => {
+    // @ts-ignore
     if (el.type === "tag" && el.name === "slot") {
       // slot前面有一个文本节点，所以减2
       const comment = $contents[index - 2];
       slotAsts.push({
+        // @ts-ignore
         slot: el,
         comment: comment.type === "comment" ? comment : null,
       });
